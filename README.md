@@ -1,5 +1,4 @@
-# A very simple node starting project
+winston-cloudwatch
+==================
 
-To run tests `make test`
-
-To run testem so that tests run on file change either run `npm run dev` or `make -s`
+Send logs to Amazon Cloudwatch using Winston.
