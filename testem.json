@@ -1,0 +1,9 @@
+{
+    "launchers": {
+        "Node": {
+            "command": "make test"
+        }
+    },
+    "launch_in_dev": [ "Node" ],
+    "launch_in_ci": [ "Node" ]
+}
