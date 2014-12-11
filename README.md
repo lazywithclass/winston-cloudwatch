@@ -5,8 +5,6 @@ Send logs to Amazon Cloudwatch using Winston.
 
 ## Installing
 
-*This module is not yet published.*
-
 ```sh
 $ npm install --save winston winston-cloudwatch
 ```
