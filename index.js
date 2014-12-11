@@ -6,16 +6,18 @@ var util = require('util'),
 var CloudWatch = winston.transports.CloudWatch = function(options) {
   this.name = 'CloudWatch';
   this.level = options.level || 'info';
+  this.logGroupName = options.logGroupName || 'default-log-group-name';
+  this.logStreamName = options.logStreamName || 'default-log-stream-name';
 };
 
 util.inherits(CloudWatch, winston.Transport);
 
 CloudWatch.prototype.log = function(level, msg, meta, callback) {
-  cloudwatchIntegration.upload({
-     level: level,
-     msg: msg,
-     meta: meta
-  }, function() {
+
+  var log = { level: level, msg: msg, meta: meta };
+  var conf = { logGroupName: this.logGroupName, logStreamName: this.logStreamName };
+  
+  cloudwatchIntegration.upload(log, conf, function() {
     callback(null, true);
   });
 };
