@@ -13,7 +13,10 @@ $ npm install --save winston winston-cloudwatch
 
 ```js
 var winston = require('winston'),
-    options = {};
+  options = {
+    logGroupName: 'your-log-group',
+    logStreamName: 'your-log-stream'
+  };
 winston.add(require('winston-cloudwatch'), options);
 
 winston.error('log this', { and: 'this too' });
