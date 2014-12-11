@@ -1,7 +1,6 @@
 var util = require('util'),
     winston = require('winston'),
-    cloudwatchIntegration = require('./lib/cloudwatch-integration'),
-    suppressLogs = process.env.SUPPRESS_LOGS && true;
+    cloudwatchIntegration = require('./lib/cloudwatch-integration');
 
 var CloudWatch = winston.transports.CloudWatch = function(options) {
   this.name = 'CloudWatch';
