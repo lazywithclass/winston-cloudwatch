@@ -1,26 +1,27 @@
 {
-  "name": "winston-cloudwatch",
-  "version": "0.0.1",
-  "description": "Send logs to Amazon Cloudwatch using Winston.",
-  "main": "index.js",
-  "scripts": {
-    "test": "make test",
-    "dev": "make -s"
-  },
-  "repository": "",
-  "author": "me@lazywithclass.com",
-  "license": "MIT",
-  "dependencies": {
-    "aws-sdk": "^2.0.30",
-    "lodash": "^2.4.1",
-    "winston": "^0.8.3"
-  },
-  "devDependencies": {
-    "clarify": "^1.0.5",
-    "coffee-script": "^1.7.1",
-    "mocha": "^1.18.2",
-    "should": "^3.3.1",
-    "sinon": "^1.12.1",
-    "testem": "^0.6.15"
-  }
+    "name": "winston-cloudwatch",
+    "version": "0.1.0",
+    "description": "Send logs to Amazon Cloudwatch using Winston.",
+    "keywords": ["amazon", "cloudwatch", "winston", "logging", "log"],
+    "main": "index.js",
+    "scripts": {
+        "test": "make test",
+        "dev": "make -s"
+    },
+    "repository": "https://github.com/lazywithclass/winston-cloudwatch",
+    "author": "me@lazywithclass.com",
+    "license": "MIT",
+    "dependencies": {
+        "aws-sdk": "^2.0.30",
+        "lodash": "^2.4.1",
+        "winston": "^0.8.3"
+    },
+    "devDependencies": {
+        "clarify": "^1.0.5",
+        "coffee-script": "^1.7.1",
+        "mocha": "^1.18.2",
+        "should": "^3.3.1",
+        "sinon": "^1.12.1",
+        "testem": "^0.6.15"
+    }
 }
