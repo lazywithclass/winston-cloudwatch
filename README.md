@@ -9,6 +9,12 @@ Send logs to Amazon Cloudwatch using Winston.
 $ npm install --save winston winston-cloudwatch
 ```
 
+## Configuring
+
+AWS configuration works using `~/.aws/credentials` as written in the Amazon guide.
+
+I still have to check if everything works ok with ENV variables.
+
 ## Usage
 
 ```js
