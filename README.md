@@ -1,4 +1,4 @@
-winston-cloudwatch
+winston-cloudwatch [![Build Status](https://travis-ci.org/lazywithclass/winston-cloudwatch.svg?branch=master)](https://travis-ci.org/lazywithclass/winston-cloudwatch) [![David Dependency Overview](https://david-dm.org/lazywithclass/winston-cloudwatch.png "David Dependency Overview")](https://david-dm.org/lazywithclass/winston-cloudwatch)
 ==================
 
 Send logs to Amazon Cloudwatch using Winston.
