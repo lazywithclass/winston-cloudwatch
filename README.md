@@ -1,4 +1,4 @@
-winston-cloudwatch
+winston-cloudwatch [![Build Status](https://travis-ci.org/lazywithclass/winston-cloudwatch.svg?branch=master)](https://travis-ci.org/lazywithclass/winston-cloudwatch) [![David Dependency Overview](https://david-dm.org/lazywithclass/winston-cloudwatch.png "David Dependency Overview")](https://david-dm.org/lazywithclass/winston-cloudwatch)
 ==================
 
 Send logs to Amazon Cloudwatch using Winston.
@@ -11,7 +11,7 @@ $ npm install --save winston winston-cloudwatch
 
 ## Configuring
 
-AWS configuration works using `~/.aws/credentials` as written in the Amazon guide.
+AWS configuration works using `~/.aws/credentials` as written in [AWS JavaScript SDK guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials).
 
 I still have to check if everything works ok with ENV variables.
 
