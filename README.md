@@ -29,3 +29,13 @@ winston.add(require('winston-cloudwatch'), options);
 
 winston.error('log this', { and: 'this too' });
 ```
+
+## Release notes
+
+### 0.1.2
+
+Work around to the AWS time limit for sending events.
+
+### 0.1.1
+
+First release
