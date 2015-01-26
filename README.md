@@ -27,6 +27,7 @@ I still have to check if everything works ok with ENV variables.
 ## Usage
 
 Please refer to [AWS CloudWatch Logs documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html) for possible contraints that might affect you.
+Also have a look at [AWS CloudWatch Logs limits](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_limits.html).
 
 ```js
 var winston = require('winston'),
