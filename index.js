@@ -5,20 +5,19 @@ var util = require('util'),
 var CloudWatch = winston.transports.CloudWatch = function(options) {
   this.name = 'CloudWatch';
   this.level = options.level || 'info';
-  this.logGroupName = options.logGroupName || 'default-log-group-name';
-  this.logStreamName = options.logStreamName || 'default-log-stream-name';
 
-  cloudwatchIntegration.initAws(options.awsAccessKeyId, options.awsSecretKey, options.awsRegion);
+  cloudwatchIntegration.init(options.logGroupName, options.logStreamName,
+                             options.awsAccessKeyId, options.awsSecretKey, options.awsRegion);
 };
 
 util.inherits(CloudWatch, winston.Transport);
 
 CloudWatch.prototype.log = function(level, msg, meta, callback) {
   var log = { level: level, msg: msg, meta: meta };
-  var conf = { logGroupName: this.logGroupName, logStreamName: this.logStreamName };
-  cloudwatchIntegration.upload(log, conf, function() {
-    callback(null, true);
-  });
+  cloudwatchIntegration.add(log);
+
+  // do not wait, just return right away
+  callback(null, true);
 };
 
 module.exports = CloudWatch;
