@@ -14,10 +14,10 @@ describe 'plugin', ->
   plugin = require '../lib/cloudwatch-integration'
   
   beforeEach ->
-    sinon.stub(plugin, 'upload').yields()
+    sinon.stub(plugin, 'add')
 
   afterEach ->
-    plugin.upload.restore()
+    plugin.add.restore()
     
   it 'could be required', -> should.exist lib
 
@@ -27,4 +27,4 @@ describe 'plugin', ->
   it 'uploads logs to Cloudwatch', ->
     winston.add(lib, {});
     winston.info 'testing'
-    plugin.upload.calledOnce.should.be.true
+    plugin.add.calledOnce.should.be.true
