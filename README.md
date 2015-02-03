@@ -3,15 +3,6 @@ winston-cloudwatch [![Build Status](https://travis-ci.org/lazywithclass/winston-
 
 Send logs to Amazon Cloudwatch using Winston.
 
-# Issues
-
-As of now there are two major issues that I'm fixing:
-
- * https://github.com/lazywithclass/winston-cloudwatch/issues/3
- * https://github.com/lazywithclass/winston-cloudwatch/issues/1
-
-I am working on those, please note that they do prevent the module from working properly in certain cases.
-
 ## Installing
 
 ```sh
