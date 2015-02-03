@@ -50,6 +50,10 @@ Please refer to [the provided example](https://github.com/lazywithclass/winston-
 
 ## Release notes
 
+### 0.2.2
+
+Updated dependencies.
+
 ### 0.2.1
 
 Checking if logs are empty before splicing them.
