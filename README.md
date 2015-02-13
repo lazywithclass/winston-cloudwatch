@@ -31,6 +31,20 @@ winston.add(require('winston-cloudwatch'), options);
 winston.error('log this', { and: 'this too' });
 ```
 
+The default level is `info`, you could override that, to `silly` for example, like so:
+
+```js
+var winston = require('winston'),
+  options = {
+    level: 'silly',
+    logGroupName: 'your-log-group',
+    logStreamName: 'your-log-stream'
+  };
+winston.add(require('winston-cloudwatch'), options);
+
+winston.error('log this', { and: 'this too' });
+```
+
 If you want you could pass AWS keys as options, like so:
 
 ```js
