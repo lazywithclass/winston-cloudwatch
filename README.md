@@ -39,7 +39,8 @@ var winston = require('winston'),
     logGroupName: 'your-log-group',
     logStreamName: 'your-log-stream',
     awsAccessKeyId: 'your-access-key-id',
-    awsSecretKey: 'your-secret-key'
+    awsSecretKey: 'your-secret-key',
+    awsRegion: 'your-region'
   };
 winston.add(require('winston-cloudwatch'), options);
 
