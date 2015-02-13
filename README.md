@@ -51,6 +51,14 @@ Please refer to [the provided example](https://github.com/lazywithclass/winston-
 
 ## Release notes
 
+### 0.2.4
+
+Construct the AWS object, don't update it.
+
+### 0.2.3
+
+Updated winston.
+
 ### 0.2.2
 
 Updated dependencies.
