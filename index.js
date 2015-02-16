@@ -13,7 +13,7 @@ var CloudWatch = winston.transports.CloudWatch = function(options) {
 
 util.inherits(CloudWatch, winston.Transport);
 
-Cloudwatch.prototype.log = function(level, msg, meta, callback) {
+CloudWatch.prototype.log = function(level, msg, meta, callback) {
   var log = { level: level, msg: msg, meta: meta };
   this.cw.add(log);
 
