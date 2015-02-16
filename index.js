@@ -7,7 +7,7 @@ var CloudWatch = winston.transports.CloudWatch = function(options) {
   this.level = options.level || 'info';
   this.handleExceptions = options.handleExceptions || false;
 
-  this.cw = cloudwatchIntegration.init(options.logGroupName, options.logStreamName,
+  this.cw = new cloudwatchIntegration(options.logGroupName, options.logStreamName,
                              options.awsAccessKeyId, options.awsSecretKey, options.awsRegion);
 };
 
