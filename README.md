@@ -65,6 +65,10 @@ Please refer to [the provided example](https://github.com/lazywithclass/winston-
 
 ## Release notes
 
+### 0.3.0
+
+Increase `logEvents` batch upload to 20 items
+
 ### 0.2.5
 
 Construct the AWS object, don't update it.
