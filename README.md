@@ -13,7 +13,11 @@ $ npm install --save winston winston-cloudwatch
 
 AWS configuration works using `~/.aws/credentials` as written in [AWS JavaScript SDK guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials).
 
-I still have to check if everything works ok with ENV variables.
+As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_the_Region)
+
+ > The AWS SDK for Node.js doesn't select the region by default.
+ 
+so you should take care of that. See the examples below.
 
 ## Usage
 
