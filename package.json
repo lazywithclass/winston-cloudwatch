@@ -17,10 +17,12 @@
   "repository": "https://github.com/lazywithclass/winston-cloudwatch",
   "author": "me@lazywithclass.com",
   "license": "MIT",
+  "peerDependencies": {
+    "winston": "^1.0.0"
+  },
   "dependencies": {
     "aws-sdk": "^2.1.8",
-    "lodash": "^3.0.1",
-    "winston": "^0.9.0"
+    "lodash": "^3.0.1"
   },
   "devDependencies": {
     "clarify": "^1.0.5",
