@@ -69,6 +69,10 @@ Please refer to [the provided example](https://github.com/lazywithclass/winston-
 
 ## Release notes
 
+### 0.3.1
+
+Fixed region config to allow SDK to pull from IAM role when running on EC2
+
 ### 0.3.0
 
 Increase `logEvents` batch upload to 20 items
