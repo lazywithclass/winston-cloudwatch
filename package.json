@@ -27,9 +27,9 @@
   "devDependencies": {
     "clarify": "^1.0.5",
     "coffee-script": "^1.7.1",
-    "mocha": "^1.18.2",
-    "should": "^3.3.1",
+    "mocha": "^2.3.3",
+    "should": "^7.1.0",
     "sinon": "^1.12.1",
-    "testem": "^0.6.15"
+    "testem": "^0.9.5"
   }
 }
