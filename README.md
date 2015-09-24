@@ -69,6 +69,10 @@ Please refer to [the provided example](https://github.com/lazywithclass/winston-
 
 ## Release notes
 
+### 0.5.0
+
+Added `jsonMessage` in options for when you want to send the log object as JSON formatted string
+
 ### 0.4.0
 
 Introduced winston as peer dependency
