@@ -1,3 +1,7 @@
+### 0.6.1
+
+Dealing with a bug that prevented to push logs
+
 ### 0.6.0
 
 Added paging to `describeLogStreams`
