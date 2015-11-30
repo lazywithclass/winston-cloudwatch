@@ -1,6 +1,6 @@
 {
   "name": "winston-cloudwatch",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Send logs to Amazon Cloudwatch using Winston.",
   "keywords": [
     "amazon",
@@ -18,7 +18,7 @@
   "author": "me@lazywithclass.com",
   "license": "MIT",
   "peerDependencies": {
-    "winston": "^1.0.0"
+    "winston": "^2.0.0"
   },
   "dependencies": {
     "aws-sdk": "^2.1.8",
