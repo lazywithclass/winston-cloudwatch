@@ -20,6 +20,8 @@ As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/nod
  
 so you should take care of that. See the examples below.
 
+If either the group or the stream do not exist they will be created for you.
+
 ## Usage
 
 Please refer to [AWS CloudWatch Logs documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html) for possible contraints that might affect you.

@@ -1,3 +1,7 @@
+### 0.8.0
+
+Group or stream are created if they are not found
+
 ### 0.7.0
 
 Support Winston 2.0
