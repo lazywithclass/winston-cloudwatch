@@ -38,34 +38,18 @@ winston.add(require('winston-cloudwatch'), options);
 winston.error('log this', { and: 'this too' });
 ```
 
-The default level is `info`, you could override that, to `silly` for example, like so:
+### Options
 
-```js
-var winston = require('winston'),
-  options = {
-    level: 'silly',
-    logGroupName: 'your-log-group',
-    logStreamName: 'your-log-stream'
-  };
-winston.add(require('winston-cloudwatch'), options);
+This is the list of options you could pass as argument to `winston.add`:
 
-winston.error('log this', { and: 'this too' });
-```
+ * level - defaults to `info`
+ * logGroupName
+ * logStreamName
+ * awsAccessKeyId
+ * awsSecretKey
+ * awsRegion
+ * jsonMessage - format the message as JSON
 
-If you want you could pass AWS keys as options, like so:
-
-```js
-var winston = require('winston'),
-  options = {
-    logGroupName: 'your-log-group',
-    logStreamName: 'your-log-stream',
-    awsAccessKeyId: 'your-access-key-id',
-    awsSecretKey: 'your-secret-key',
-    awsRegion: 'your-region'
-  };
-winston.add(require('winston-cloudwatch'), options);
-
-winston.error('log this', { and: 'this too' });
-```
+AWS keys are usually picked by aws-sdk so you don't have to specify them, I provided the option just in case. Remember that `awsRegion` should still be set if you're using IAM roles.
 
 Please refer to [the provided example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/test/example.js) for more hints.
