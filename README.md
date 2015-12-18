@@ -48,7 +48,7 @@ This is the list of options you could pass as argument to `winston.add`:
  * awsAccessKeyId
  * awsSecretKey
  * awsRegion
- * jsonMessage - format the message as JSON
+ * jsonMessage - `boolean`, format the message as JSON
 
 AWS keys are usually picked by aws-sdk so you don't have to specify them, I provided the option just in case. Remember that `awsRegion` should still be set if you're using IAM roles.
 
