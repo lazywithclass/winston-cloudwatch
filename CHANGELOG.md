@@ -1,3 +1,7 @@
+### 0.9.0
+
+Updated dependencies
+
 ### 0.8.0
 
 Group or stream are created if they are not found
