@@ -22,7 +22,8 @@
   },
   "dependencies": {
     "aws-sdk": "^2.2.35",
-    "lodash": "^4.3.0"
+    "lodash": "^4.3.0",
+    "proxy-agent": "^2.0.0"
   },
   "devDependencies": {
     "clarify": "^1.0.5",

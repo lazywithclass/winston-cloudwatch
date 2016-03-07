@@ -49,6 +49,7 @@ This is the list of options you could pass as argument to `winston.add`:
  * awsSecretKey
  * awsRegion
  * jsonMessage - `boolean`, format the message as JSON
+ * proxyServer
 
 AWS keys are usually picked by aws-sdk so you don't have to specify them, I provided the option just in case. Remember that `awsRegion` should still be set if you're using IAM roles.
 

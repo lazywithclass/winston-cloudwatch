@@ -7,7 +7,8 @@ var CloudWatch = winston.transports.CloudWatch = function(options) {
   this.level = options.level || 'info';
 
   cloudwatchIntegration.init(options.logGroupName, options.logStreamName,
-                             options.awsAccessKeyId, options.awsSecretKey, options.awsRegion, options.jsonMessage);
+                             options.awsAccessKeyId, options.awsSecretKey,
+                             options.awsRegion, options.jsonMessage, options.proxyServer);
 };
 
 util.inherits(CloudWatch, winston.Transport);
