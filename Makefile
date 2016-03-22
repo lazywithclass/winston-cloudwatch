@@ -5,6 +5,6 @@ test:
 	./node_modules/.bin/mocha test/cloudwatch-integration.js --require should
 
 cover:
-	./node_modules/.bin/istanbul cover _mocha -- --require should -R spec
+	./node_modules/.bin/istanbul cover _mocha test/cloudwatch-integration.js -- --require should -R spec
 
 .PHONY: test
