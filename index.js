@@ -3,12 +3,12 @@ var util = require('util'),
     cloudwatchIntegration = require('./lib/cloudwatch-integration');
 
 var CloudWatch = winston.transports.CloudWatch = function(options) {
-  this.name = 'CloudWatch';
+  this.name = options.name || 'CloudWatch';
   this.level = options.level || 'info';
 
   cloudwatchIntegration.init(options.logGroupName, options.logStreamName,
                              options.awsAccessKeyId, options.awsSecretKey,
-                             options.awsRegion, options.jsonMessage, options.proxyServer);
+                             options.awsRegion, options.jsonMessage, options.proxyServer, this);
 };
 
 util.inherits(CloudWatch, winston.Transport);

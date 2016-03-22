@@ -1,7 +1,10 @@
-testem:
-	./node_modules/.bin/testem
+dev:
+	./node_modules/.bin/mocha test/cloudwatch-integration.js --require should -w
 
 test:
-	./node_modules/.bin/mocha --compilers coffee:coffee-script/register --reporter spec test/main.coffee
+	./node_modules/.bin/mocha test/cloudwatch-integration.js --require should
+
+cover:
+	./node_modules/.bin/istanbul cover _mocha -- --require should -R spec
 
 .PHONY: test
