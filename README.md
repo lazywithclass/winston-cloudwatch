@@ -14,10 +14,10 @@ $ npm install --save winston winston-cloudwatch
 
 AWS configuration works using `~/.aws/credentials` as written in [AWS JavaScript SDK guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials).
 
-As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_the_Region)
+As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_the_Region):
 
  > The AWS SDK for Node.js doesn't select the region by default.
- 
+
 so you should take care of that. See the examples below.
 
 If either the group or the stream do not exist they will be created for you.
@@ -29,14 +29,17 @@ Also have a look at [AWS CloudWatch Logs limits](http://docs.aws.amazon.com/Amaz
 
 ```js
 var winston = require('winston'),
-  options = {
-    logGroupName: 'your-log-group',
-    logStreamName: 'your-log-stream'
-  };
-winston.add(require('winston-cloudwatch'), options);
+    WinstonCloudWatch = require('../index');
 
-winston.error('log this', { and: 'this too' });
+winston.add(WinstonCloudWatch, {
+  logGroupName: 'testing',
+  logStreamName: 'first'
+});
+
+winston.error('1');
 ```
+
+You could also log to multiple streams with / without different log levels, have a look at [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/multiple-logger.js).
 
 ### Options
 
@@ -49,8 +52,9 @@ This is the list of options you could pass as argument to `winston.add`:
  * awsSecretKey
  * awsRegion
  * jsonMessage - `boolean`, format the message as JSON
- * proxyServer
+ * proxyServer - `String`, use `proxyServer` as proxy
+        httpOptions
 
 AWS keys are usually picked by aws-sdk so you don't have to specify them, I provided the option just in case. Remember that `awsRegion` should still be set if you're using IAM roles.
 
-Please refer to [the provided example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/test/example.js) for more hints.
+Please refer to [the provided examples](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples) for more hints.
