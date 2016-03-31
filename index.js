@@ -1,24 +1,83 @@
+'use strict';
+
 var util = require('util'),
     winston = require('winston'),
-    cloudwatchIntegration = require('./lib/cloudwatch-integration');
+    AWS = require('aws-sdk'),
+    cloudWatchIntegration = require('./lib/cloudwatch-integration');
 
-var CloudWatch = winston.transports.CloudWatch = function(options) {
-  this.name = options.name || 'CloudWatch';
-  this.level = options.level || 'info';
 
-  cloudwatchIntegration.init(options.logGroupName, options.logStreamName,
-                             options.awsAccessKeyId, options.awsSecretKey,
-                             options.awsRegion, options.jsonMessage, options.proxyServer, this);
-};
+class WinstonCloudWatch extends winston.Transport {
 
-util.inherits(CloudWatch, winston.Transport);
+  constructor(options) {
+    super(options);
+    this.level = options.level || 'info';
+    this.name = options.name || 'CloudWatch';
+    this.logGroupName = options.logGroupName;
+    this.logStreamName = options.logStreamName;
+    var awsAccessKeyId = this.aswAccessKeyId = options.awsAccessKeyId;
+    var awsSecretKey = this.aswSecretKey = options.awsSecretKey;
+    var awsRegion = this.awsRegion = options.awsRegion;
+    this.jsonMessage = options.jsonMessage;
+    var proxyServer = this.proxyServer = options.proxyServer;
+    this.logEvents = [];
 
-CloudWatch.prototype.log = function(level, msg, meta, callback) {
-  var log = { level: level, msg: msg, meta: meta };
-  cloudwatchIntegration.add(log);
+    if (this.proxyServer) {
+      AWS.config.update({
+        httpOptions: {
+          agent: require('proxy-agent')(this.proxyServer)
+        }
+      });
+    }
 
-  // do not wait, just return right away
-  callback(null, true);
-};
+    if (awsAccessKeyId && awsSecretKey && awsRegion) {
+      this.cloudwatchlogs = new AWS.CloudWatchLogs({accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey, region: awsRegion});
+    } else if (awsRegion && !awsAccessKeyId && !awsSecretKey) {
+      // Amazon SDK will automatically pull access credentials
+      // from IAM Role when running on EC2 but region still
+      // needs to be configured
+      this.cloudwatchlogs = new AWS.CloudWatchLogs({region: awsRegion});
+    } else {
+      this.cloudwatchlogs = new AWS.CloudWatchLogs();
+    }
+  }
 
-module.exports = CloudWatch;
+  log(level, msg, meta, callback) {
+    var log = { level: level, msg: msg, meta: meta };
+    this.add(log);
+
+    // do not wait, just return right away
+    callback(null, true);
+  };
+
+  add(log) {
+    var self = this;
+
+    self.logEvents.push({
+      message: self.messageAsJSON ?
+        stringify(log) :
+        [ log.level, log.msg, stringify(log.meta) ].join(' - '),
+      timestamp: new Date().getTime()
+    });
+
+    self.lastFree = new Date().getTime();
+    if (!self.intervalId) {
+      self.intervalId = setInterval(function() {
+        if (new Date().getTime() - 2000 <= self.lastFree) return;
+
+        cloudWatchIntegration.upload(
+          self.cloudwatchlogs,
+          self.logGroupName,
+          self.logStreamName,
+          self.logEvents,
+          function(err) {
+            self.lastFree = new Date().getTime();
+            if (err) return console.log(err, err.stack);
+          });
+      }, 1000);
+    }
+  };
+}
+
+function stringify(o) { return JSON.stringify(o, null, '  '); }
+
+module.exports = WinstonCloudWatch;
