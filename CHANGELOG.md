@@ -1,3 +1,10 @@
+### 1.0.0
+
+Almost a complete rewrite. Not compatible with previous versions.
+It's now possible to log to multiple streams and to have different
+log levels.
+100% test covered the lib layer.
+
 ### 0.10.0
 
 Added support for proxy
@@ -66,4 +73,3 @@ Work around to the AWS time limit for sending events.
 ### 0.1.1
 
 First release
-
