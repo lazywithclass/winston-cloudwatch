@@ -4,6 +4,15 @@
 
 Send logs to Amazon Cloudwatch using Winston.
 
+## Features
+
+ * logging to AWS CloudWatchLogs
+ * logging to multiple streams
+ * logging with multiple levels
+ * doesn't try to buffer your unsent logs (you should use more streams)
+ * [#options](see options for more)
+ * 100% code coverage in lib layer (WIP for the rest)
+
 ## Installing
 
 ```sh
@@ -52,8 +61,8 @@ This is the list of options you could pass as argument to `winston.add`:
  * awsSecretKey
  * awsRegion
  * jsonMessage - `boolean`, format the message as JSON
- * proxyServer - `String`, use `proxyServer` as proxy
-        httpOptions
+ * proxyServer - `String`, use `proxyServer` as proxy in httpOptions
+ * uploadRate - `Number`, how often logs have to be sent to AWS. Be careful of not hitting [AWS CloudWatch Logs limits](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_limits.html), the default is 2000ms.
 
 AWS keys are usually picked by aws-sdk so you don't have to specify them, I provided the option just in case. Remember that `awsRegion` should still be set if you're using IAM roles.
 

@@ -19,6 +19,7 @@ class WinstonCloudWatch extends winston.Transport {
     var awsRegion = this.awsRegion = options.awsRegion;
     this.jsonMessage = options.jsonMessage;
     var proxyServer = this.proxyServer = options.proxyServer;
+    this.uploadRate = options.uploadRate || 2000;
     this.logEvents = [];
 
     if (this.proxyServer) {
@@ -59,21 +60,17 @@ class WinstonCloudWatch extends winston.Transport {
       timestamp: new Date().getTime()
     });
 
-    self.lastFree = new Date().getTime();
     if (!self.intervalId) {
       self.intervalId = setInterval(function() {
-        if (new Date().getTime() - 2000 <= self.lastFree) return;
-
         cloudWatchIntegration.upload(
           self.cloudwatchlogs,
           self.logGroupName,
           self.logStreamName,
           self.logEvents,
           function(err) {
-            self.lastFree = new Date().getTime();
             if (err) return console.log(err, err.stack);
           });
-      }, 1000);
+      }, self.uploadRate);
     }
   };
 }
