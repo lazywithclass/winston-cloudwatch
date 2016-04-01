@@ -27,7 +27,6 @@
     "proxy-agent": "^2.0.0"
   },
   "devDependencies": {
-    "aws-sdk-mock": "^1.0.9",
     "clarify": "^1.0.5",
     "istanbul": "^0.4.2",
     "mocha": "^2.3.3",

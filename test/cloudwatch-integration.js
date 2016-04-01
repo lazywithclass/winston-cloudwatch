@@ -3,8 +3,7 @@ describe('cloudwatch-integration', function() {
   var lib = require('../lib/cloudwatch-integration'),
       AWS = require('aws-sdk'),
       sinon = require('sinon'),
-      should = require('should'),
-      awsMock = require('aws-sdk-mock');
+      should = require('should');
 
 
   describe('upload', function() {
