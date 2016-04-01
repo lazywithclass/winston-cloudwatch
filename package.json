@@ -21,6 +21,7 @@
     "winston": "^2.0.0"
   },
   "dependencies": {
+    "async": "^2.0.0-rc.2",
     "aws-sdk": "^2.2.35",
     "lodash": "^4.3.0",
     "proxy-agent": "^2.0.0"
