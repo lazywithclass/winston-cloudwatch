@@ -1,3 +1,7 @@
+### 1.0.1
+
+Update dependencies
+
 ### 1.0.0
 
 Almost a complete rewrite. Not compatible with previous versions.
