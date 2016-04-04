@@ -11,7 +11,7 @@ Send logs to Amazon Cloudwatch using Winston.
  * logging to multiple streams
  * logging with multiple levels
  * doesn't try to buffer your unsent logs (you should use more streams)
- * [#options](see options for more)
+ * [see options for more](#options)
  * 100% code coverage in lib layer (WIP for the rest)
 
 ## Installing
@@ -49,7 +49,7 @@ winston.add(WinstonCloudWatch, {
 winston.error('1');
 ```
 
-You could also log to multiple streams with / without different log levels, have a look at [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/multiple-logger.js).
+You could also log to multiple streams with / without different log levels, have a look at [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/multiple-loggers.js).
 
 ### Options
 
