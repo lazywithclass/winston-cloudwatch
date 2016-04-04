@@ -12,7 +12,7 @@
   "main": "index.js",
   "scripts": {
     "test": "make test",
-    "cover": "make cover"
+    "coveralls": "./node_modules/.bin/coveralls <./coverage/lcov.info"
   },
   "repository": "https://github.com/lazywithclass/winston-cloudwatch",
   "author": "me@lazywithclass.com",
@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "clarify": "^1.0.5",
+    "coveralls": "^2.11.9",
     "istanbul": "^0.4.2",
     "mocha": "^2.3.3",
     "should": "^8.3.0",
