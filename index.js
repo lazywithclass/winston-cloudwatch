@@ -17,7 +17,10 @@ class WinstonCloudWatch extends winston.Transport {
     var awsAccessKeyId = this.aswAccessKeyId = options.awsAccessKeyId;
     var awsSecretKey = this.aswSecretKey = options.awsSecretKey;
     var awsRegion = this.awsRegion = options.awsRegion;
-    this.jsonMessage = options.jsonMessage;
+    var messageFormatter = options.messageFormatter ? options.messageFormatter : function(log) {
+        return [ log.level, log.msg, stringify(log.meta) ].join(' - ')
+    };
+    this.formatMessage = options.jsonMessage ? stringify : messageFormatter;
     var proxyServer = this.proxyServer = options.proxyServer;
     this.uploadRate = options.uploadRate || 2000;
     this.logEvents = [];
@@ -54,9 +57,7 @@ class WinstonCloudWatch extends winston.Transport {
     var self = this;
 
     self.logEvents.push({
-      message: self.jsonMessage ?
-        stringify(log) :
-        [ log.level, log.msg, stringify(log.meta) ].join(' - '),
+      message: self.formatMessage(log),
       timestamp: new Date().getTime()
     });
 
@@ -76,5 +77,6 @@ class WinstonCloudWatch extends winston.Transport {
 }
 
 function stringify(o) { return JSON.stringify(o, null, '  '); }
+
 
 module.exports = WinstonCloudWatch;

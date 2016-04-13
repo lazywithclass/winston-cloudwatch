@@ -11,7 +11,10 @@ describe('cloudwatch-integration', function() {
     CloudWatchLogs: function() {}
   };
   var stubbedCloudwatchIntegration = {
-    upload: sinon.spy()
+    upload: sinon.spy(function(aws, groupName, streamName, logEvents, cb) {
+      this.lastLoggedEvents = logEvents.splice(0, 20);
+      cb();
+    })
   };
   var clock = sinon.useFakeTimers();
 
@@ -34,19 +37,21 @@ describe('cloudwatch-integration', function() {
     mockery.disable();
   });
 
-  describe('add', function() {
+  describe('log', function() {
     describe('as json', function() {
       var transport;
       var options = {
         jsonMessage: true
       };
-      before(function() {
+      before(function(done) {
         transport = new WinstonCloudWatch(options);
-        transport.add({level:'level', msg:'message', meta: {key: 'value'}});
+        transport.log('level', 'message', {key: 'value'}, function() {
+          clock.tick(2000);
+          done();
+        });
       });
       it('logs json', function() {
-        clock.tick(2000);
-        var message = stubbedCloudwatchIntegration.upload.args[0][3][0].message;
+        var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
         var jsonMessage = JSON.parse(message);
         jsonMessage.level.should.equal('level');
         jsonMessage.msg.should.equal('message');
@@ -55,16 +60,48 @@ describe('cloudwatch-integration', function() {
     });
     describe('as text', function() {
       var transport;
-      var options = {
-      };
-      before(function() {
-        transport = new WinstonCloudWatch(options);
-        transport.add({level:'level', msg:'message', meta: {key: 'value'}});
+      describe('using the default formatter', function() {
+        var options = {};
+        describe('with metadata', function() {
+          var meta = {key: 'value'};
+          before(function(done) {
+            transport = new WinstonCloudWatch(options);
+            transport.log('level', 'message', meta, done);
+            clock.tick(2000);
+          });
+          it('logs text', function() {
+            var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
+            message.should.equal('level - message - {\n  "key": "value"\n}');
+          });
+        });
+        describe('without metadata', function() {
+          var meta = {};
+          before(function(done) {
+            transport = new WinstonCloudWatch(options);
+            transport.log('level', 'message', {}, done);
+            clock.tick(2000);
+          });
+          it('logs text', function() {
+            var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
+            message.should.equal('level - message - {}');
+          });
+        });
       });
-      it('logs text', function() {
-        clock.tick(2000);
-        var message = stubbedCloudwatchIntegration.upload.args[0][3][0].message;
-        message.should.equal('{\n  "level": "level",\n  "msg": "message",\n  "meta": {\n    "key": "value"\n  }\n}');
+      describe('using a custom formatter', function() {
+        var options = {
+          messageFormatter: function(log) {
+            return 'custom formatted log message';
+          }
+        };
+        before(function(done) {
+          transport = new WinstonCloudWatch(options);
+          transport.log('level', 'message', {key: 'value'}, done);
+          clock.tick(2000);
+        });
+        it('logs text', function() {
+          var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
+          message.should.equal('custom formatted log message');
+        });
       });
     });
   });
