@@ -24,7 +24,6 @@
     "async": "^2.0.0-rc.2",
     "aws-sdk": "^2.3.0",
     "lodash": "^4.7.0",
-    "mockery": "^1.5.1",
     "proxy-agent": "^2.0.0"
   },
   "devDependencies": {
@@ -32,6 +31,7 @@
     "coveralls": "^2.11.9",
     "istanbul": "^0.4.2",
     "mocha": "^2.3.3",
+    "mockery": "^1.5.1",
     "should": "^8.3.0",
     "sinon": "^1.12.1"
   }
