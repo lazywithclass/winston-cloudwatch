@@ -54,7 +54,7 @@ class WinstonCloudWatch extends winston.Transport {
     var self = this;
 
     self.logEvents.push({
-      message: self.messageAsJSON ?
+      message: self.jsonMessage ?
         stringify(log) :
         [ log.level, log.msg, stringify(log.meta) ].join(' - '),
       timestamp: new Date().getTime()
