@@ -24,6 +24,7 @@
     "async": "^2.0.0-rc.2",
     "aws-sdk": "^2.3.0",
     "lodash": "^4.7.0",
+    "mockery": "^1.5.1",
     "proxy-agent": "^2.0.0"
   },
   "devDependencies": {
