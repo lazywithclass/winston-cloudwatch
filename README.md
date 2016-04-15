@@ -1,4 +1,4 @@
-# winston-cloudwatch v1.0.1
+# winston-cloudwatch v1.1.0
 
 Send logs to Amazon Cloudwatch using Winston.
 
