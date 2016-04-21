@@ -1,3 +1,7 @@
+### 1.2.0
+
+Added error handler
+
 ### 1.1.0
 
 Fixed typo in jsonMessage. Introduced testing for index.js

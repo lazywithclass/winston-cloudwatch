@@ -29,12 +29,14 @@ describe('cloudwatch-integration', function() {
     WinstonCloudWatch = require('../index.js');
 
   });
+
   after(function() {
     mockery.deregisterAll();
     mockery.disable();
   });
 
   describe('add', function() {
+
     describe('as json', function() {
       var transport;
       var options = {
@@ -66,6 +68,41 @@ describe('cloudwatch-integration', function() {
         var message = stubbedCloudwatchIntegration.upload.args[0][3][0].message;
         message.should.equal('{\n  "level": "level",\n  "msg": "message",\n  "meta": {\n    "key": "value"\n  }\n}');
       });
+    });
+
+    describe('handles error', function() {
+
+      beforeEach(function() {
+        stubbedCloudwatchIntegration.upload = sinon.stub().yields('ERROR');
+        mockery.registerMock('./lib/cloudwatch-integration', stubbedCloudwatchIntegration);
+        sinon.stub(console, 'error');
+      });
+
+      afterEach(function() {
+        stubbedCloudwatchIntegration = {
+          upload: sinon.spy()
+        };
+        mockery.registerMock('./lib/cloudwatch-integration', stubbedCloudwatchIntegration);
+        console.error.restore();
+      });
+
+      it('invoking errorHandler if provided', function() {
+        var errorHandlerSpy = sinon.spy();
+        var transport = new WinstonCloudWatch({
+          errorHandler: errorHandlerSpy
+        });
+        transport.add({});
+        clock.tick(2000);
+        errorHandlerSpy.args[0][0].should.equal('ERROR');
+      });
+
+      it('console.error if errorHandler is not provided', function() {
+        var transport = new WinstonCloudWatch({});
+        transport.add({});
+        clock.tick(2000);
+        console.error.args[0][0].should.equal('ERROR');
+      });
+
     });
   });
 });
