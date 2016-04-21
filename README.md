@@ -64,6 +64,7 @@ This is the list of options you could pass as argument to `winston.add`:
  * jsonMessage - `boolean`, format the message as JSON
  * proxyServer - `String`, use `proxyServer` as proxy in httpOptions
  * uploadRate - `Number`, how often logs have to be sent to AWS. Be careful of not hitting [AWS CloudWatch Logs limits](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_limits.html), the default is 2000ms.
+ * errorHandler - `function`, function to receive an error object and stack, if not provided the error is sent the console.
 
 AWS keys are usually picked by aws-sdk so you don't have to specify them, I provided the option just in case. Remember that `awsRegion` should still be set if you're using IAM roles.
 
