@@ -19,6 +19,7 @@ var WinstonCloudWatch = function(options) {
   var proxyServer = this.proxyServer = options.proxyServer;
   this.uploadRate = options.uploadRate || 2000;
   this.logEvents = [];
+  this.errorHandler = options.errorHandler;
 
   if (this.proxyServer) {
     AWS.config.update({
@@ -70,7 +71,14 @@ WinstonCloudWatch.prototype.add = function(log) {
         self.logStreamName,
         self.logEvents,
         function(err) {
-          if (err) return console.log(err, err.stack);
+          if (err) {
+            if (self.errorHandler) {
+              return self.errorHandler(err, err.stack);
+            } else
+            {
+              return console.log(err, err.stack);          
+            }
+          }
         });
     }, self.uploadRate);
   }
