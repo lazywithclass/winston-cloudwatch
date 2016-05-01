@@ -32,6 +32,7 @@ describe('cloudwatch-integration', function() {
     WinstonCloudWatch = require('../index.js');
 
   });
+
   after(function() {
     mockery.deregisterAll();
     mockery.disable();
@@ -103,6 +104,41 @@ describe('cloudwatch-integration', function() {
           message.should.equal('custom formatted log message');
         });
       });
+    });
+
+    describe('handles error', function() {
+
+      beforeEach(function() {
+        stubbedCloudwatchIntegration.upload = sinon.stub().yields('ERROR');
+        mockery.registerMock('./lib/cloudwatch-integration', stubbedCloudwatchIntegration);
+        sinon.stub(console, 'error');
+      });
+
+      afterEach(function() {
+        stubbedCloudwatchIntegration = {
+          upload: sinon.spy()
+        };
+        mockery.registerMock('./lib/cloudwatch-integration', stubbedCloudwatchIntegration);
+        console.error.restore();
+      });
+
+      it('invoking errorHandler if provided', function() {
+        var errorHandlerSpy = sinon.spy();
+        var transport = new WinstonCloudWatch({
+          errorHandler: errorHandlerSpy
+        });
+        transport.add({});
+        clock.tick(2000);
+        errorHandlerSpy.args[0][0].should.equal('ERROR');
+      });
+
+      it('console.error if errorHandler is not provided', function() {
+        var transport = new WinstonCloudWatch({});
+        transport.add({});
+        clock.tick(2000);
+        console.error.args[0][0].should.equal('ERROR');
+      });
+
     });
   });
 });
