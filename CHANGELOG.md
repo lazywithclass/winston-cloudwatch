@@ -1,3 +1,7 @@
+### 1.3.0
+
+Added messageFormatter to format the log
+
 ### 1.2.0
 
 Added error handler
