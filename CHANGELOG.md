@@ -1,3 +1,7 @@
+### 1.3.1
+
+added `npm run update-dependencies` to automatically update all deps in package.json and node_modules
+
 ### 1.3.0
 
 Added messageFormatter to format the log

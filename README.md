@@ -1,4 +1,4 @@
-# winston-cloudwatch [v1.3.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#130)
+# winston-cloudwatch [v1.3.1](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#131)
 
 Send logs to Amazon Cloudwatch using Winston.
 

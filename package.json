@@ -1,6 +1,6 @@
 {
   "name": "winston-cloudwatch",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Send logs to Amazon Cloudwatch using Winston.",
   "keywords": [
     "amazon",
@@ -12,7 +12,8 @@
   "main": "index.js",
   "scripts": {
     "test": "make test",
-    "coveralls": "./node_modules/.bin/coveralls <./coverage/lcov.info"
+    "coveralls": "./node_modules/.bin/coveralls <./coverage/lcov.info",
+    "update-dependencies": "./node_modules/.bin/npm-check-updates -ua && npm install"
   },
   "repository": "https://github.com/lazywithclass/winston-cloudwatch",
   "author": "me@lazywithclass.com",
@@ -21,18 +22,19 @@
     "winston": "^2.1.1"
   },
   "dependencies": {
-    "async": "^2.0.0-rc.2",
-    "aws-sdk": "^2.3.0",
-    "lodash": "^4.7.0",
+    "async": "^2.0.0-rc.3",
+    "aws-sdk": "^2.3.8",
+    "lodash": "^4.11.2",
     "proxy-agent": "^2.0.0"
   },
   "devDependencies": {
     "clarify": "^1.0.5",
     "coveralls": "^2.11.9",
-    "istanbul": "^0.4.2",
-    "mocha": "^2.3.3",
-    "mockery": "^1.5.1",
-    "should": "^8.3.0",
-    "sinon": "^1.12.1"
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5",
+    "mockery": "^1.6.2",
+    "npm-check-updates": "^2.6.4",
+    "should": "^8.3.1",
+    "sinon": "^1.17.4"
   }
 }
