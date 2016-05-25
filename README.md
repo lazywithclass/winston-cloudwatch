@@ -10,6 +10,7 @@ Send logs to Amazon Cloudwatch using Winston.
  * logging to AWS CloudWatchLogs
  * logging to multiple streams
  * logging with multiple levels
+ * creates group / stream if they don't exist
  * doesn't try to buffer your unsent logs (you should use more streams)
  * [see options for more](#options)
  * 100% code coverage in lib layer (WIP for the rest)
