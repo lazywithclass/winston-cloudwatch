@@ -31,7 +31,7 @@ As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/nod
 
 so you should take care of that. See the examples below.
 
-If either the group or the stream do not exist they will be created for you.
+If either the group or the stream do not exist they will be created for you. For displaying time you should click on gear in the left up corner on page with your logs and enable checkbox "Creation Time". 
 
 ## Usage
 
