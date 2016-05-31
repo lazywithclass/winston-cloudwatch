@@ -32,16 +32,22 @@ var WinstonCloudWatch = function(options) {
     });
   }
 
+  var config = {};
+
   if (awsAccessKeyId && awsSecretKey && awsRegion) {
-    this.cloudwatchlogs = new AWS.CloudWatchLogs({accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey, region: awsRegion});
+    config = {accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey, region: awsRegion};
   } else if (awsRegion && !awsAccessKeyId && !awsSecretKey) {
     // Amazon SDK will automatically pull access credentials
     // from IAM Role when running on EC2 but region still
     // needs to be configured
-    this.cloudwatchlogs = new AWS.CloudWatchLogs({region: awsRegion});
-  } else {
-    this.cloudwatchlogs = new AWS.CloudWatchLogs();
+    config = {region: awsRegion};
   }
+
+  if(options.awsOptions){
+    config = extend(config, options.awsOptions);
+  }
+
+  this.cloudwatchlogs = new AWS.CloudWatchLogs(config);
 };
 
 util.inherits(WinstonCloudWatch, winston.Transport);
@@ -85,5 +91,12 @@ WinstonCloudWatch.prototype.add = function(log) {
 
 function stringify(o) { return JSON.stringify(o, null, '  '); }
 
+function extend(src, obj){
+  Object.keys(obj).map(function(key){
+    src[key] = obj[key];
+  });
+
+  return src;
+}
 
 module.exports = WinstonCloudWatch;
