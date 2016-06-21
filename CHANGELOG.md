@@ -1,3 +1,7 @@
+### 1.3.2
+
+using `logStreamNamePrefix` in `getStream`
+
 ### 1.3.1
 
 added `npm run update-dependencies` to automatically update all deps in package.json and node_modules
