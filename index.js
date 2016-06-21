@@ -13,9 +13,9 @@ var WinstonCloudWatch = function(options) {
   this.name = options.name || 'CloudWatch';
   this.logGroupName = options.logGroupName;
   this.logStreamName = options.logStreamName;
-  var awsAccessKeyId = this.aswAccessKeyId = options.awsAccessKeyId;
-  var awsSecretKey = this.aswSecretKey = options.awsSecretKey;
-  var awsRegion = this.awsRegion = options.awsRegion;
+  var awsAccessKeyId = options.awsAccessKeyId;
+  var awsSecretKey = options.awsSecretKey;
+  var awsRegion = options.awsRegion;
   var messageFormatter = options.messageFormatter ? options.messageFormatter : function(log) {
       return [ log.level, log.msg, stringify(log.meta) ].join(' - ')
   };
