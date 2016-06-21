@@ -22,19 +22,19 @@
     "winston": "^2.1.1"
   },
   "dependencies": {
-    "async": "^2.0.0-rc.3",
-    "aws-sdk": "^2.3.8",
-    "lodash": "^4.11.2",
+    "async": "^2.0.0-rc.6",
+    "aws-sdk": "^2.4.0",
+    "lodash": "^4.13.1",
     "proxy-agent": "^2.0.0"
   },
   "devDependencies": {
     "clarify": "^1.0.5",
     "coveralls": "^2.11.9",
-    "istanbul": "^0.4.3",
-    "mocha": "^2.4.5",
-    "mockery": "^1.6.2",
-    "npm-check-updates": "^2.6.4",
-    "should": "^8.3.1",
+    "istanbul": "^0.4.4",
+    "mocha": "^2.5.3",
+    "mockery": "^1.7.0",
+    "npm-check-updates": "^2.6.7",
+    "should": "^9.0.2",
     "sinon": "^1.17.4"
   }
 }
