@@ -1,4 +1,4 @@
-# winston-cloudwatch [v1.3.1](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#131)
+# winston-cloudwatch [v1.4.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#140)
 
 Send logs to Amazon Cloudwatch using Winston.
 
@@ -31,9 +31,9 @@ As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/nod
 
 so you should take care of that. See the examples below.
 
-If either the group or the stream do not exist they will be created for you. 
+If either the group or the stream do not exist they will be created for you.
 
-For displaying time you should click on the gear in the top right corner on page with your logs and enable checkbox "Creation Time". 
+For displaying time you should click on the gear in the top right corner on page with your logs and enable checkbox "Creation Time".
 
 ## Usage
 
@@ -64,6 +64,7 @@ This is the list of options you could pass as argument to `winston.add`:
  * awsAccessKeyId
  * awsSecretKey
  * awsRegion
+ * awsOptions - `object`, params as per [docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#constructor-property), values in `awsOptions` override any other if specified
  * jsonMessage - `boolean`, format the message as JSON
  * messageFormatter - `function`, format the message the way you like. This function will receive a `log` object that has the following properties: `level`, `msg`, and `meta`, which are passed by winston to the `log` function (see [CustomLogger.prototype.log as an example](https://github.com/winstonjs/winston#adding-custom-transports))
  * proxyServer - `String`, use `proxyServer` as proxy in httpOptions

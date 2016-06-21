@@ -3,7 +3,8 @@
 var util = require('util'),
     winston = require('winston'),
     AWS = require('aws-sdk'),
-    cloudWatchIntegration = require('./lib/cloudwatch-integration');
+    cloudWatchIntegration = require('./lib/cloudwatch-integration'),
+    _ = require('lodash');
 
 
 var WinstonCloudWatch = function(options) {
@@ -35,16 +36,16 @@ var WinstonCloudWatch = function(options) {
   var config = {};
 
   if (awsAccessKeyId && awsSecretKey && awsRegion) {
-    config = {accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey, region: awsRegion};
+    config = { accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey, region: awsRegion };
   } else if (awsRegion && !awsAccessKeyId && !awsSecretKey) {
     // Amazon SDK will automatically pull access credentials
     // from IAM Role when running on EC2 but region still
     // needs to be configured
-    config = {region: awsRegion};
+    config = { region: awsRegion };
   }
 
   if(options.awsOptions){
-    config = extend(config, options.awsOptions);
+    config = _.assign(config, options.awsOptions);
   }
 
   this.cloudwatchlogs = new AWS.CloudWatchLogs(config);
@@ -59,7 +60,6 @@ WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
   // do not wait, just return right away
   callback(null, true);
 };
-
 
 WinstonCloudWatch.prototype.add = function(log) {
   var self = this;
@@ -90,13 +90,5 @@ WinstonCloudWatch.prototype.add = function(log) {
 };
 
 function stringify(o) { return JSON.stringify(o, null, '  '); }
-
-function extend(src, obj){
-  Object.keys(obj).map(function(key){
-    src[key] = obj[key];
-  });
-
-  return src;
-}
 
 module.exports = WinstonCloudWatch;
