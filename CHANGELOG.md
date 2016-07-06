@@ -1,3 +1,7 @@
+### 1.4.0
+
+accepts `awsOptions` in the constructor and configures AWS accordingly
+
 ### 1.3.2
 
 using `logStreamNamePrefix` in `getStream`
