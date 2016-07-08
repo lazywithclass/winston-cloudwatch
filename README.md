@@ -1,11 +1,18 @@
 # winston-cloudwatch [v1.4.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#140)
 
-Send logs to Amazon Cloudwatch using Winston.
-
 [![Build Status](https://travis-ci.org/lazywithclass/winston-cloudwatch.svg?branch=master)](https://travis-ci.org/lazywithclass/winston-cloudwatch) [![Coverage Status](https://coveralls.io/repos/github/lazywithclass/winston-cloudwatch/badge.svg?branch=master)](https://coveralls.io/github/lazywithclass/winston-cloudwatch?branch=master) [![Dependency Status](https://david-dm.org/lazywithclass/winston-cloudwatch.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch) [![dev dependencies](https://david-dm.org/lazywithclass/winston-cloudwatch/dev-status.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch#info=devDependencies) [![peer dependencies](https://david-dm.org/lazywithclass/winston-cloudwatch/peer-status.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch#info=peerDependencies)
 ==================
 
-## Features
+Send logs to Amazon Cloudwatch using Winston.
+
+ * [Features](#features)
+ * [Installing](#installing)
+ * [Configuring](#configuring)
+ * [Usage](#usage)
+ * [Options](#options)
+ * [Examples](#examples)
+
+### Features
 
  * logging to AWS CloudWatchLogs
  * logging to multiple streams
@@ -15,13 +22,13 @@ Send logs to Amazon Cloudwatch using Winston.
  * [see options for more](#options)
  * 100% code coverage in lib layer (WIP for the rest)
 
-## Installing
+### Installing
 
 ```sh
 $ npm install --save winston winston-cloudwatch
 ```
 
-## Configuring
+### Configuring
 
 AWS configuration works using `~/.aws/credentials` as written in [AWS JavaScript SDK guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials).
 
@@ -35,7 +42,7 @@ If either the group or the stream do not exist they will be created for you.
 
 For displaying time you should click on the gear in the top right corner on page with your logs and enable checkbox "Creation Time".
 
-## Usage
+### Usage
 
 Please refer to [AWS CloudWatch Logs documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html) for possible contraints that might affect you.
 Also have a look at [AWS CloudWatch Logs limits](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_limits.html).
@@ -73,4 +80,8 @@ This is the list of options you could pass as argument to `winston.add`:
 
 AWS keys are usually picked by aws-sdk so you don't have to specify them, I provided the option just in case. Remember that `awsRegion` should still be set if you're using IAM roles.
 
+### Examples
+
 Please refer to [the provided examples](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples) for more hints.
+
+Note that when running the examples the process will not exit because of the [`setInterval`](https://github.com/lazywithclass/winston-cloudwatch/blob/master/index.js#L73)
