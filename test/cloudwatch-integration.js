@@ -36,7 +36,7 @@ describe('cloudwatch-integration', function() {
 
     it('truncates very large messages and alerts the error handler', function(done) {
       var BIG_MSG_LEN = 300000;
-      const events = [{ message : new Array(BIG_MSG_LEN).fill('A').join(''), timestamp : new Date().toISOString()}];
+      const events = [{ message : new Array(BIG_MSG_LEN).join('A'), timestamp : new Date().toISOString()}];
       var errCalled = false;
       lib.upload(aws, 'group', 'stream', events, function(err) {
         if(err) {
@@ -52,7 +52,7 @@ describe('cloudwatch-integration', function() {
 
     it('batches messages so as not to exceed CW limits', function(done) {
       var BIG_MSG_LEN = 250000; // under single limit but a few of these will exceed the batch limit
-      var bigMessage = new Array(BIG_MSG_LEN).fill('A').join('');
+      var bigMessage = new Array(BIG_MSG_LEN).join(' ');
       const events = [
         { message : bigMessage, timestamp : new Date().toISOString()},
         { message : bigMessage, timestamp : new Date().toISOString()},
