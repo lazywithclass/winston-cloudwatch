@@ -21,6 +21,58 @@ describe('cloudwatch-integration', function() {
       console.error.restore();
     });
 
+    it('ignores upload calls if already in progress', function(done) {
+      const events = [{ message : "test message", timestamp : new Date().toISOString()}];
+      aws.putLogEvents.onFirstCall().returns(); // Don't call call back to simulate ongoing request.
+      aws.putLogEvents.onSecondCall().yields();
+      lib.upload(aws, 'group', 'stream', events, function(){});
+      lib.upload(aws, 'group', 'stream', events, function() {
+        // The second upload call should get ignored
+        aws.putLogEvents.calledOnce.should.equal(true);
+        lib._postingEvents = false; // reset
+        done()
+      });
+    });
+
+    it('truncates very large messages and alerts the error handler', function(done) {
+      var BIG_MSG_LEN = 300000;
+      const events = [{ message : new Array(BIG_MSG_LEN).join('A'), timestamp : new Date().toISOString()}];
+      var errCalled = false;
+      lib.upload(aws, 'group', 'stream', events, function(err) {
+        if(err) {
+          errCalled = true;
+          return;
+        }
+        errCalled.should.equal(true);
+        aws.putLogEvents.calledOnce.should.equal(true);
+          aws.putLogEvents.args[0][0].logEvents[0].message.length.should.be.lessThan(BIG_MSG_LEN); // Truncated
+        done()
+      });
+    });
+
+    it('batches messages so as not to exceed CW limits', function(done) {
+      var BIG_MSG_LEN = 250000; // under single limit but a few of these will exceed the batch limit
+      var bigMessage = new Array(BIG_MSG_LEN).join(' ');
+      const events = [
+        { message : bigMessage, timestamp : new Date().toISOString()},
+        { message : bigMessage, timestamp : new Date().toISOString()},
+        { message : bigMessage, timestamp : new Date().toISOString()},
+        { message : bigMessage, timestamp : new Date().toISOString()},
+        { message : bigMessage, timestamp : new Date().toISOString()}
+      ];
+      lib.upload(aws, 'group', 'stream', events, function(err) {
+        aws.putLogEvents.calledOnce.should.equal(true);
+        aws.putLogEvents.args[0][0].logEvents.length.should.equal(4); // First Batch
+        // Now, finish.
+        lib.upload(aws, 'group', 'stream', events, function(err) {
+          aws.putLogEvents.args[1][0].logEvents.length.should.equal(1); // Second Batch
+          done()
+        });
+      });
+    });
+
+
+
     it('puts log events', function(done) {
       lib.upload(aws, 'group', 'stream', Array(20), function() {
         aws.putLogEvents.calledOnce.should.equal(true);
