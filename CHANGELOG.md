@@ -1,3 +1,7 @@
+### 1.5.0
+
+Fixes a bug when under heavy load and and adds batching and truncating features (thanks @npahucki)
+
 ### 1.4.0
 
 accepts `awsOptions` in the constructor and configures AWS accordingly

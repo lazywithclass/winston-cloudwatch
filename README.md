@@ -1,4 +1,4 @@
-# winston-cloudwatch [v1.4.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#140)
+# winston-cloudwatch [v1.5.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#150)
 
 Send logs to Amazon Cloudwatch using Winston.
 
@@ -12,6 +12,9 @@ Send logs to Amazon Cloudwatch using Winston.
  * logging with multiple levels
  * creates group / stream if they don't exist
  * doesn't try to buffer your unsent logs (you should use more streams)
+ * waits for an upload to suceed before trying the next
+ * truncates messages that are too big
+ * batches messages taking care of the AWS limit
  * [see options for more](#options)
  * 100% code coverage in lib layer (WIP for the rest)
 
