@@ -43,7 +43,7 @@ so you should take care of that. See the examples below.
 
 If either the group or the stream do not exist they will be created for you.
 
-For displaying time you should click on the gear in the top right corner on page with your logs and enable checkbox "Creation Time".
+For displaying time in AWS CloudWatch UI you should click on the gear in the top right corner in the page with your logs and enable checkbox "Creation Time".
 
 ### Usage
 
