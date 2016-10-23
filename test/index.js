@@ -88,8 +88,8 @@ describe('cloudwatch-integration', function() {
         jsonMessage.msg.should.equal('message');
         jsonMessage.meta.key.should.equal('value');
       });
-    })
-    ;
+    });
+
     describe('as text', function() {
 
       var transport;

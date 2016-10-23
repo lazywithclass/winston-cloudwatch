@@ -17,7 +17,7 @@ var WinstonCloudWatch = function(options) {
   var awsSecretKey = options.awsSecretKey;
   var awsRegion = options.awsRegion;
   var messageFormatter = options.messageFormatter ? options.messageFormatter : function(log) {
-      return [ log.level, log.msg, stringify(log.meta) ].join(' - ')
+    return [ log.level, log.msg, stringify(log.meta) ].join(' - ');
   };
   this.formatMessage = options.jsonMessage ? stringify : messageFormatter;
   var proxyServer = this.proxyServer = options.proxyServer;
@@ -78,11 +78,8 @@ WinstonCloudWatch.prototype.add = function(log) {
         self.logEvents,
         function(err) {
           if (err) {
-            if (self.errorHandler) {
-              return self.errorHandler(err);
-            } else {
-              return console.error(err);
-            }
+            self.errorHandler ?
+              self.errorHandler(err) : console.error(err);
           }
         });
     }, self.uploadRate);

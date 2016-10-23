@@ -1,3 +1,7 @@
+### 1.5.1
+
+Updated dependencies and small code refactoring
+
 ### 1.5.0
 
 Fixes a bug when under heavy load and and adds batching and truncating features (thanks @npahucki)
