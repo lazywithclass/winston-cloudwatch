@@ -63,8 +63,8 @@ WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
   }
     
   // clear interval and send logs immediately
-  clearInterval(self.intervalId);
-  self.intervalId = null;
+  clearInterval(this.intervalId);
+  this.intervalId = null;
     
   this.submit(callback);
 };
