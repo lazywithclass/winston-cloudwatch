@@ -56,16 +56,16 @@ util.inherits(WinstonCloudWatch, winston.Transport);
 WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
   var log = { level: level, msg: msg, meta: meta };
   this.add(log);
-    
+
   if (!/^uncaughtException: /.test(msg)) {
     // do not wait, just return right away
     return callback(null, true);
   }
-    
+
   // clear interval and send logs immediately
+  // as Winston is about to end the process
   clearInterval(this.intervalId);
   this.intervalId = null;
-    
   this.submit(callback);
 };
 

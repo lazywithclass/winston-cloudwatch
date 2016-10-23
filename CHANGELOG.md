@@ -1,3 +1,7 @@
+### 1.6.0
+
+Send logs immediately in case we are dealing with an uncaught exception handled by Winston
+
 ### 1.5.1
 
 Updated dependencies and small code refactoring
