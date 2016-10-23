@@ -56,9 +56,17 @@ util.inherits(WinstonCloudWatch, winston.Transport);
 WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
   var log = { level: level, msg: msg, meta: meta };
   this.add(log);
-
-  // do not wait, just return right away
-  callback(null, true);
+    
+  if (!/^uncaughtException: /.test(msg)) {
+    // do not wait, just return right away
+    return callback(null, true);
+  }
+    
+  // clear interval and send logs immediately
+  clearInterval(self.intervalId);
+  self.intervalId = null;
+    
+  this.submit(callback);
 };
 
 WinstonCloudWatch.prototype.add = function(log) {
@@ -71,19 +79,25 @@ WinstonCloudWatch.prototype.add = function(log) {
 
   if (!self.intervalId) {
     self.intervalId = setInterval(function() {
-      cloudWatchIntegration.upload(
-        self.cloudwatchlogs,
-        self.logGroupName,
-        self.logStreamName,
-        self.logEvents,
-        function(err) {
-          if (err) {
-            self.errorHandler ?
-              self.errorHandler(err) : console.error(err);
-          }
-        });
+      self.submit(function(err) {
+        if (err) {
+          self.errorHandler ? self.errorHandler(err) : console.error(err);
+        }
+      });
     }, self.uploadRate);
   }
+};
+
+WinstonCloudWatch.prototype.submit = function(callback) {
+  var self = this;
+
+  cloudWatchIntegration.upload(
+    self.cloudwatchlogs,
+    self.logGroupName,
+    self.logStreamName,
+    self.logEvents,
+    callback
+  );
 };
 
 function stringify(o) { return JSON.stringify(o, null, '  '); }
