@@ -22,8 +22,8 @@ Send logs to Amazon Cloudwatch using Winston.
  * waits for an upload to suceed before trying the next
  * truncates messages that are too big
  * batches messages taking care of the AWS limit
+ * support for Winston's uncaught exception handler
  * [see options for more](#options)
- * 100% code coverage in lib layer (WIP for the rest)
 
 ### Installing
 
