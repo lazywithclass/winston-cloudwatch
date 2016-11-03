@@ -71,8 +71,8 @@ You can also specify a function for the `logGroupName` and `logStreamName` optio
 This is the list of options you could pass as argument to `winston.add`:
 
  * level - defaults to `info`
- * logGroupName
- * logStreamName
+ * logGroupName - `string` or `function`
+ * logStreamName - `string` or `function`
  * awsAccessKeyId
  * awsSecretKey
  * awsRegion
