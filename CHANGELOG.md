@@ -1,3 +1,7 @@
+### 1.7.0
+
+Added ability to use functions in config for groupname and streamname
+
 ### 1.6.0
 
 Send logs immediately in case we are dealing with an uncaught exception handled by Winston
