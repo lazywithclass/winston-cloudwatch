@@ -1,3 +1,7 @@
+### 1.8.0
+
+Not sending logs or meta information if they are emtpy
+
 ### 1.7.0
 
 Added ability to use functions in config for groupname and streamname

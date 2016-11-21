@@ -17,12 +17,9 @@ var WinstonCloudWatch = function(options) {
   var awsSecretKey = options.awsSecretKey;
   var awsRegion = options.awsRegion;
   var messageFormatter = options.messageFormatter ? options.messageFormatter : function(log) {
-    if(stringify(log.meta)==="{}")
-    {
-      return [ log.level, log.msg ].join(' - ');
-    }else{
-      return [ log.level, log.msg, stringify(log.meta) ].join(' - ');
-    }
+    return _.isEmpty(log.meta) ?
+      [ log.level, log.msg ].join(' - ') :
+      [ log.level, log.msg, stringify(log.meta) ].join(' - ');
   };
   this.formatMessage = options.jsonMessage ? stringify : messageFormatter;
   var proxyServer = this.proxyServer = options.proxyServer;
@@ -60,15 +57,13 @@ util.inherits(WinstonCloudWatch, winston.Transport);
 
 WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
   var log = { level: level, msg: msg, meta: meta };
-  if(msg.length!==0){
+  if (!_.isEmpty(msg)) {
     this.add(log);
   }
 
   if (!/^uncaughtException: /.test(msg)) {
     // do not wait, just return right away
-    if(msg.length!==0) {
-        return callback(null, true);
-    }
+    return callback(null, true);
   }
 
   // clear interval and send logs immediately
@@ -81,8 +76,7 @@ WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
 WinstonCloudWatch.prototype.add = function(log) {
   var self = this;
 
-  if(log.msg.length!==0)
-  {
+  if (!_.isEmpty(log.msg)) {
     self.logEvents.push({
       message: self.formatMessage(log),
       timestamp: new Date().getTime()
@@ -108,16 +102,17 @@ WinstonCloudWatch.prototype.submit = function(callback) {
   var streamName = typeof self.logStreamName === 'function' ?
     self.logStreamName() : self.logStreamName;
 
-  if(self.logEvents.length!==0)
-  {
-    cloudWatchIntegration.upload(
-      self.cloudwatchlogs,
-      groupName,
-      streamName,
-      self.logEvents,
-      callback
-    );
+  if (_.isEmpty(self.logEvents)) {
+    return callback();
   }
+
+  cloudWatchIntegration.upload(
+    self.cloudwatchlogs,
+    groupName,
+    streamName,
+    self.logEvents,
+    callback
+  );
 };
 
 function stringify(o) { return JSON.stringify(o, null, '  '); }
