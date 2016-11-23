@@ -66,6 +66,19 @@ describe('cloudwatch-integration', function() {
 
   describe('log', function() {
 
+    before(function(done) {
+      transport = new WinstonCloudWatch({});
+      transport.log('level', null, {key: 'value'}, function() {
+        clock.tick(2000);
+        done();
+      });
+    });
+
+    it('does not upload if empty message', function(done) {
+      stubbedCloudwatchIntegration.upload.called.should.equal(false);
+      done();
+    });
+
     describe('as json', function() {
 
       var transport;
@@ -126,7 +139,7 @@ describe('cloudwatch-integration', function() {
 
           it('logs text', function() {
             var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
-            message.should.equal('level - message - {}');
+            message.should.equal('level - message');
           });
         });
       });
@@ -173,14 +186,14 @@ describe('cloudwatch-integration', function() {
         var transport = new WinstonCloudWatch({
           errorHandler: errorHandlerSpy
         });
-        transport.add({});
+        transport.log('level', 'message', { answer: 42 }, sinon.stub());
         clock.tick(2000);
         errorHandlerSpy.args[0][0].should.equal('ERROR');
       });
 
       it('console.error if errorHandler is not provided', function() {
         var transport = new WinstonCloudWatch({});
-        transport.add({});
+        transport.log('level', 'message', { answer: 42 }, sinon.stub());
         clock.tick(2000);
         console.error.args[0][0].should.equal('ERROR');
       });
