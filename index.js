@@ -13,6 +13,7 @@ var WinstonCloudWatch = function(options) {
   this.name = options.name || 'CloudWatch';
   this.logGroupName = options.logGroupName;
   this.logStreamName = options.logStreamName;
+
   var awsAccessKeyId = options.awsAccessKeyId;
   var awsSecretKey = options.awsSecretKey;
   var awsRegion = options.awsRegion;
@@ -113,6 +114,12 @@ WinstonCloudWatch.prototype.submit = function(callback) {
     self.logEvents,
     callback
   );
+};
+
+WinstonCloudWatch.prototype.kthxbye = function(callback) {
+  clearInterval(this.intervalId);
+  this.intervalId = null;
+  this.submit(callback);
 };
 
 function stringify(o) { return JSON.stringify(o, null, '  '); }
