@@ -1,3 +1,7 @@
+### 1.9.0
+
+Added kthxbye, to allow the user to stop setInterval and flush the logs
+
 ### 1.8.0
 
 Not sending logs or meta information if they are emtpy

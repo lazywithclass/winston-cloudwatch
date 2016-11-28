@@ -200,4 +200,40 @@ describe('cloudwatch-integration', function() {
 
     });
   });
+
+  describe('ktxhbye', function() {
+
+    var transport;
+
+    beforeEach(function() {
+      sinon.stub(global, 'setInterval');
+      sinon.stub(global, 'clearInterval');
+      transport = new WinstonCloudWatch({});
+      sinon.stub(transport, 'submit').yields();
+    });
+
+    afterEach(function() {
+      global.setInterval.restore();
+      global.clearInterval.restore();
+      transport.submit.restore();
+    });
+
+    it('clears the interval', function(done) {
+      transport.intervalId = 'fake';
+
+      transport.kthxbye(function() {
+        global.clearInterval.callCount.should.equal(1);
+        should.not.exist(transport.intervalId);
+        done();
+      });
+    });
+
+    it('submit the logs', function(done) {
+      transport.kthxbye(function() {
+        transport.submit.callCount.should.equal(1);
+        done();
+      });
+    });
+  });
+
 });
