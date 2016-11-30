@@ -33,6 +33,7 @@ declare module "winston" {
 
   export interface CloudwatchTransportInstance extends winston.TransportInstance {
     new(options?: CloudwatchTransportOptions): CloudwatchTransportInstance;
+    kthxbye(cb: (() => void)): void;
   }
 
   export interface Transports {
