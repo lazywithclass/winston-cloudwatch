@@ -18,7 +18,7 @@
   "repository": "https://github.com/lazywithclass/winston-cloudwatch",
   "author": "me@lazywithclass.com",
   "license": "MIT",
-  "typings": "typescript/cloudwatch-integration.d.ts",
+  "typings": "typescript/winston-cloudwatch.d.ts",
   "peerDependencies": {
     "winston": "^2.1.1"
   },
