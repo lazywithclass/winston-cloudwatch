@@ -10,7 +10,7 @@ interface CloudWatchIntegration {
   ignoreInProgress(cb: ((err: Error, data: boolean) => void)): void;
 }
 
-declare namespace winston {
+declare module "winston" {
 
   export interface CloudwatchTransportOptions {
     level?: string;
@@ -27,11 +27,11 @@ declare namespace winston {
     errorHandler?: ((err: Error) => void);
   }
 
-  export type TransportOptions = winston.TransportOptions | CloudwatchTransportOptions;
+  export interface Winston {
+    add(transport: winston.TransportInstance, options?: winston.TransportOptions | CloudwatchTransportOptions, created?: boolean): winston.LoggerInstance;
+  }
 
   export interface CloudwatchTransportInstance extends winston.TransportInstance {
-
-
     new(options?: CloudwatchTransportOptions): CloudwatchTransportInstance;
   }
 
