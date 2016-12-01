@@ -5,6 +5,7 @@ describe('cloudwatch-integration', function() {
       mockery = require('mockery');
 
   var stubbedWinston = {
+    transports: {},
     Transport: function() {}
   };
   var stubbedAWS = {
