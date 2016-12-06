@@ -18,6 +18,7 @@
   "repository": "https://github.com/lazywithclass/winston-cloudwatch",
   "author": "me@lazywithclass.com",
   "license": "MIT",
+  "typings": "typescript/winston-cloudwatch.d.ts",
   "peerDependencies": {
     "winston": "^2.1.1"
   },
@@ -28,6 +29,8 @@
     "proxy-agent": "^2.0.0"
   },
   "devDependencies": {
+    "@types/node": "0.0.0",
+    "@types/winston": "0.0.32",
     "clarify": "^2.0.0",
     "coveralls": "^2.11.14",
     "istanbul": "^0.4.5",

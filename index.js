@@ -124,4 +124,6 @@ WinstonCloudWatch.prototype.kthxbye = function(callback) {
 
 function stringify(o) { return JSON.stringify(o, null, '  '); }
 
+winston.transports.CloudWatch = WinstonCloudWatch;
+
 module.exports = WinstonCloudWatch;
