@@ -1,3 +1,7 @@
+### 1.10.0
+
+Added TypeScript definitions
+
 ### 1.9.0
 
 Added kthxbye, to allow the user to stop setInterval and flush the logs
