@@ -15,7 +15,8 @@ Send logs to Amazon Cloudwatch using Winston.
 ### Features
 
  * logging to AWS CloudWatchLogs
- * logging to multiple streams
+ * [logging to multiple streams](#logging-to-multiple-streams)
+ * [programmatically flush logs and exit](#programmatically-flush-logs-and-exit)
  * logging with multiple levels
  * creates group / stream if they don't exist
  * waits for an upload to suceed before trying the next
@@ -62,11 +63,19 @@ winston.add(WinstonCloudWatch, {
 winston.error('1');
 ```
 
-You could also log to multiple streams with / without different log levels, have a look at [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/multiple-loggers.js).
-
 You can also specify a function for the `logGroupName` and `logStreamName` options. This is handy if you are using this module in a server, say with [express](https://github.com/bithavoc/express-winston), as it enables you to easily split streams across dates, for example. There is an example of this [here](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/function-config.js).
 
-You could also have winston-cloudwatch to flush and stop the setInterval loop (thus exiting), have a look
+#### Logging to multiple streams
+
+You could also log to multiple streams with / without different log levels, have a look at [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/multiple-loggers.js).
+
+Consider that when using this feature you will have two instances of winston-cloudwatch, each with its own `setInterval` running.
+
+#### Programmatically flush logs and exit
+
+Think AWS Lambda for example, you don't want to leave the process running there for ever waiting for logs to arrive.
+
+You could have winston-cloudwatch to flush and stop the setInterval loop (thus exiting), have a look
 at [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/flush-and-exit.js).
 
 ### Options
