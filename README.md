@@ -18,10 +18,9 @@ Send logs to Amazon Cloudwatch using Winston.
  * logging to multiple streams
  * logging with multiple levels
  * creates group / stream if they don't exist
- * doesn't try to buffer your unsent logs (you should use more streams)
  * waits for an upload to suceed before trying the next
  * truncates messages that are too big
- * batches messages taking care of the AWS limit
+ * batches messages taking care of the AWS limit (you should use more streams if you hit this a lot)
  * support for Winston's uncaught exception handler
  * support for TypeScript, see https://github.com/lazywithclass/winston-cloudwatch/blob/master/typescript/winston-cloudwatch.d.ts
  * [see options for more](#options)
