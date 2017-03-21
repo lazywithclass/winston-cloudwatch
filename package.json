@@ -25,6 +25,7 @@
   "dependencies": {
     "async": "^2.1.2",
     "aws-sdk": "^2.6.11",
+    "chalk": "^1.1.3",
     "lodash": "^4.16.4",
     "proxy-agent": "^2.0.0"
   },

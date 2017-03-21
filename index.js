@@ -4,7 +4,9 @@ var util = require('util'),
     winston = require('winston'),
     AWS = require('aws-sdk'),
     cloudWatchIntegration = require('./lib/cloudwatch-integration'),
-    _ = require('lodash');
+    _ = require('lodash'),
+    stringify = require('./lib/utils').stringify,
+    debug = require('./lib/utils').debug;
 
 
 var WinstonCloudWatch = function(options) {
@@ -52,11 +54,15 @@ var WinstonCloudWatch = function(options) {
   }
 
   this.cloudwatchlogs = new AWS.CloudWatchLogs(config);
+
+  debug('constructor finished');
 };
 
 util.inherits(WinstonCloudWatch, winston.Transport);
 
 WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
+  debug('log (called by winston)', level, msg, meta);
+
   var log = { level: level, msg: msg, meta: meta };
   if (!_.isEmpty(msg)) {
     this.add(log);
@@ -75,6 +81,8 @@ WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
 };
 
 WinstonCloudWatch.prototype.add = function(log) {
+  debug('add log to queue', log);
+
   var self = this;
 
   if (!_.isEmpty(log.msg)) {
@@ -85,9 +93,11 @@ WinstonCloudWatch.prototype.add = function(log) {
   }
 
   if (!self.intervalId) {
+    debug('creating interval');
     self.intervalId = setInterval(function() {
       self.submit(function(err) {
         if (err) {
+          debug('error during submit', err, true);
           self.errorHandler ? self.errorHandler(err) : console.error(err);
         }
       });
@@ -96,22 +106,20 @@ WinstonCloudWatch.prototype.add = function(log) {
 };
 
 WinstonCloudWatch.prototype.submit = function(callback) {
-  var self = this;
+  var groupName = typeof this.logGroupName === 'function' ?
+    self.logGroupName() : this.logGroupName;
+  var streamName = typeof this.logStreamName === 'function' ?
+    self.logStreamName() : this.logStreamName;
 
-  var groupName = typeof self.logGroupName === 'function' ?
-    self.logGroupName() : self.logGroupName;
-  var streamName = typeof self.logStreamName === 'function' ?
-    self.logStreamName() : self.logStreamName;
-
-  if (_.isEmpty(self.logEvents)) {
+  if (_.isEmpty(this.logEvents)) {
     return callback();
   }
 
   cloudWatchIntegration.upload(
-    self.cloudwatchlogs,
+    this.cloudwatchlogs,
     groupName,
     streamName,
-    self.logEvents,
+    this.logEvents,
     callback
   );
 };
@@ -121,8 +129,6 @@ WinstonCloudWatch.prototype.kthxbye = function(callback) {
   this.intervalId = null;
   this.submit(callback);
 };
-
-function stringify(o) { return JSON.stringify(o, null, '  '); }
 
 winston.transports.CloudWatch = WinstonCloudWatch;
 
