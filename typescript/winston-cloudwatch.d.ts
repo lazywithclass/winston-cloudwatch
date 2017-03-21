@@ -7,7 +7,7 @@ interface CloudWatchIntegration {
   getToken(aws: CloudWatchLogs, groupName: string, streamName: string, cb: ((err: Error, data: string) => void)): void;
   ensureGroupPresent(aws: CloudWatchLogs, name: string, cb: ((err: Error, data: boolean) => void)): void;
   getStream(aws: CloudWatchLogs, groupName: string, streamName: string, cb: ((err: Error, data: CloudWatchLogs.Types.DescribeLogStreamsResponse) => void)): void;
-  ignoreInProgress(cb: ((err: Error, data: boolean) => void)): void;
+  ignoreInProgress(cb: ((err: Error) => void)): void;
 }
 
 declare module "winston" {
