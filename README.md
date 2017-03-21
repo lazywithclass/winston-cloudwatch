@@ -1,4 +1,4 @@
-# winston-cloudwatch [v1.10.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#1100)
+# winston-cloudwatch [v1.11.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#1110)
 
 [![Build Status](https://travis-ci.org/lazywithclass/winston-cloudwatch.svg?branch=master)](https://travis-ci.org/lazywithclass/winston-cloudwatch) [![Coverage Status](https://coveralls.io/repos/github/lazywithclass/winston-cloudwatch/badge.svg?branch=master)](https://coveralls.io/github/lazywithclass/winston-cloudwatch?branch=master) [![Dependency Status](https://david-dm.org/lazywithclass/winston-cloudwatch.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch) [![dev dependencies](https://david-dm.org/lazywithclass/winston-cloudwatch/dev-status.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch#info=devDependencies) [![peer dependencies](https://david-dm.org/lazywithclass/winston-cloudwatch/peer-status.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch#info=peerDependencies)
 ==================
@@ -11,6 +11,7 @@ Send logs to Amazon Cloudwatch using Winston.
  * [Usage](#usage)
  * [Options](#options)
  * [Examples](#examples)
+ * [Simulation](#simulation)
 
 ### Features
 
@@ -102,3 +103,30 @@ AWS keys are usually picked by aws-sdk so you don't have to specify them, I prov
 Please refer to [the provided examples](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples) for more hints.
 
 Note that when running the examples the process will not exit because of the [`setInterval`](https://github.com/lazywithclass/winston-cloudwatch/blob/master/index.js#L73)
+
+### Simulation
+
+You could simulate how winston-cloudwatch runs by using the files in 
+`examples/simulate`:
+
+ * `running-process.js` represents a winston-cloudwatch process that sits there,
+ sends a couple logs then waits for a signal to send more
+ * `log.sh` is a script that you could run to send logs to the above
+ 
+At this point you could for example run `log.sh` in a tight loop, like so
+
+```bash
+$ while true; do ./examples/simulate/log.sh $PID; sleep 0.2; done
+```
+
+and see what happens in the library, this might be useful to test if you need
+more streams for example, all you need to do is change `running-process.js` to
+better reflect your needs.
+
+If you want more detailed information you could do
+
+```bash
+$ WINSTON_CLOUDWATCH_DEBUG=true node examples/simulate/running-process.js
+```
+
+which will print lots of debug statements as you might've guessed.

@@ -1,5 +1,11 @@
 ### 1.10.0
 
+Making sure that we don't try to send empty logs (again), added a simulation tool
+so that we could easily test error conditions, retrying to submit if we get an
+error, retrying with another token if we get an InvalidSequenceTokenException
+
+### 1.10.0
+
 Added TypeScript definitions
 
 ### 1.9.0
@@ -16,7 +22,8 @@ Added ability to use functions in config for groupname and streamname
 
 ### 1.6.0
 
-Send logs immediately in case we are dealing with an uncaught exception handled by Winston
+Send logs immediately in case we are dealing with an uncaught exception handled
+by Winston
 
 ### 1.5.1
 
@@ -24,7 +31,8 @@ Updated dependencies and small code refactoring
 
 ### 1.5.0
 
-Fixes a bug when under heavy load and and adds batching and truncating features (thanks @npahucki)
+Fixes a bug when under heavy load and and adds batching and truncating features
+(thanks @npahucki)
 
 ### 1.4.0
 
@@ -36,7 +44,8 @@ using `logStreamNamePrefix` in `getStream`
 
 ### 1.3.1
 
-added `npm run update-dependencies` to automatically update all deps in package.json and node_modules
+added `npm run update-dependencies` to automatically update all deps in 
+package.json and node_modules
 
 ### 1.3.0
 
@@ -87,7 +96,8 @@ Added paging to `describeLogStreams`
 
 ### 0.5.0
 
-Added `jsonMessage` in options for when you want to send the log object as JSON formatted string
+Added `jsonMessage` in options for when you want to send the log object as JSON 
+formatted string
 
 ### 0.4.0
 
@@ -120,7 +130,8 @@ Logging if getting an error while fetching the token from AWS.
 
 ### 0.2.0
 
-Added a `setInterval` around the uploading function, to avoiding flooding AWS and thus getting rejected.
+Added a `setInterval` around the uploading function, to avoiding flooding AWS 
+and thus getting rejected.
 
 ### 0.1.2
 
