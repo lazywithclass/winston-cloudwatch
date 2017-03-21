@@ -1,4 +1,4 @@
-### 1.10.0
+### 1.11.0
 
 Making sure that we don't try to send empty logs (again), added a simulation tool
 so that we could easily test error conditions, retrying to submit if we get an
