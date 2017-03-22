@@ -107,9 +107,9 @@ WinstonCloudWatch.prototype.add = function(log) {
 
 WinstonCloudWatch.prototype.submit = function(callback) {
   var groupName = typeof this.logGroupName === 'function' ?
-    self.logGroupName() : this.logGroupName;
+    this.logGroupName() : this.logGroupName;
   var streamName = typeof this.logStreamName === 'function' ?
-    self.logStreamName() : this.logStreamName;
+    this.logStreamName() : this.logStreamName;
 
   if (_.isEmpty(this.logEvents)) {
     return callback();

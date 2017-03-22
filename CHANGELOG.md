@@ -1,3 +1,7 @@
+### 1.11.1
+
+Fixed a silly bug due to having left `self` instead of `this`
+
 ### 1.11.0
 
 Making sure that we don't try to send empty logs (again), added a simulation tool
