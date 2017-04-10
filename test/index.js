@@ -1,4 +1,4 @@
-describe('cloudwatch-integration', function() {
+describe('index', function() {
 
   var sinon = require('sinon'),
       should = require('should'),
@@ -24,8 +24,12 @@ describe('cloudwatch-integration', function() {
   var WinstonCloudWatch;
 
   before(function() {
-    mockery.enable();
+    mockery.enable({
+      warnOnReplace: false
+    });
     mockery.registerAllowable('util');
+    mockery.registerAllowable('lodash');
+    mockery.registerAllowable('./lib/utils');
 
     mockery.registerMock('winston', stubbedWinston);
     mockery.registerMock('aws-sdk', stubbedAWS);
@@ -178,7 +182,6 @@ describe('cloudwatch-integration', function() {
         stubbedCloudwatchIntegration = {
           upload: sinon.spy()
         };
-        mockery.registerMock('./lib/cloudwatch-integration', stubbedCloudwatchIntegration);
         console.error.restore();
       });
 
