@@ -13,11 +13,13 @@ describe('cloudwatch-integration', function() {
     beforeEach(function() {
       aws.putLogEvents = sinon.stub().yields();
       sinon.stub(lib, 'getToken').yields(null, 'token');
+      sinon.stub(lib, 'submitWithAnotherToken').yields();
       sinon.stub(console, 'error');
     });
 
     afterEach(function() {
       lib.getToken.restore();
+      lib.submitWithAnotherToken.restore();
       console.error.restore();
     });
 
@@ -71,8 +73,6 @@ describe('cloudwatch-integration', function() {
       });
     });
 
-
-
     it('puts log events', function(done) {
       lib.upload(aws, 'group', 'stream', Array(20), function() {
         aws.putLogEvents.calledOnce.should.equal(true);
@@ -117,7 +117,14 @@ describe('cloudwatch-integration', function() {
         err.should.equal('err');
         done();
       });
+    });
 
+    it('gets another token if InvalidSequenceTokenException', function(done) {
+      aws.putLogEvents.yields({ code: 'InvalidSequenceTokenException' });
+      lib.upload(aws, 'group', 'stream', Array(20), function(err) {
+        lib.submitWithAnotherToken.calledOnce.should.equal(true);
+        done();
+      });
     });
 
   });
@@ -373,6 +380,31 @@ describe('cloudwatch-integration', function() {
       }));
 
     });
+  });
+
+  describe('submitWithAnotherToken', function() {
+
+    var aws = {};
+
+    beforeEach(function() {
+      aws.putLogEvents = sinon.stub().yields();
+      sinon.stub(lib, 'getToken').yields(null, 'new-token');
+      sinon.stub(console, 'error');
+    });
+
+    afterEach(function() {
+      lib.getToken.restore();
+      console.error.restore();
+    });
+
+    it('gets a token then resubmits', function(done) {
+      lib.submitWithAnotherToken(aws, 'group', 'stream', {}, function() {
+        aws.putLogEvents.calledOnce.should.equal(true);
+        aws.putLogEvents.args[0][0].sequenceToken.should.equal('new-token');
+        done();
+      });
+    });
+
   });
 
 });

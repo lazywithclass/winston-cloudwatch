@@ -11,6 +11,9 @@ describe('index', function() {
   var stubbedAWS = {
     CloudWatchLogs: function(options) {
       this.fakeOptions = options;
+    },
+    config: {
+      update: sinon.stub()
     }
   };
   var stubbedCloudwatchIntegration = {
@@ -31,6 +34,7 @@ describe('index', function() {
     mockery.registerAllowable('lodash');
     mockery.registerAllowable('./lib/utils');
 
+    mockery.registerMock('proxy-agent', function() { return 'fake' });
     mockery.registerMock('winston', stubbedWinston);
     mockery.registerMock('aws-sdk', stubbedAWS);
     mockery.registerMock('./lib/cloudwatch-integration', stubbedCloudwatchIntegration);
@@ -67,11 +71,25 @@ describe('index', function() {
       transport.cloudwatchlogs.fakeOptions.region.should.equal('us-east-1');
     });
 
+    it('configures httpOptions if a proxyServer has been defined', function() {
+      var options = {
+        awsOptions: {
+          region: 'us-east-1'
+        },
+        proxyServer: 'http://test.com'
+      };
+      var transport = new WinstonCloudWatch(options);
+      stubbedAWS.config.update.calledOnce.should.equal(true);
+      stubbedAWS.config.update.args[0][0].httpOptions.agent.should.equal('fake');
+    });
+
   });
 
   describe('log', function() {
 
-    before(function(done) {
+    var transport;
+
+    beforeEach(function(done) {
       transport = new WinstonCloudWatch({});
       transport.log('level', null, {key: 'value'}, function() {
         clock.tick(2000);
@@ -82,6 +100,17 @@ describe('index', function() {
     it('does not upload if empty message', function(done) {
       stubbedCloudwatchIntegration.upload.called.should.equal(false);
       done();
+    });
+
+    it('flushes logs and exits in case of an exception', function(done) {
+      transport = new WinstonCloudWatch({});
+      transport.log('level', 'uncaughtException: ', {}, function() {
+        clock.tick(2000);
+        should.not.exist(transport.intervalId);
+        // if done is called it means submit(callback) has been called
+        done();
+      });
+
     });
 
     describe('as json', function() {
