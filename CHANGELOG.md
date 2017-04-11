@@ -1,3 +1,7 @@
+### 1.11.3
+
+Fixes https://github.com/lazywithclass/winston-cloudwatch/issues/55
+
 ### 1.11.2
 
 Increased coverage
