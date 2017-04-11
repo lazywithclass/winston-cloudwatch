@@ -1,3 +1,7 @@
+### 1.11.2
+
+Increased coverage
+
 ### 1.11.1
 
 Fixed a silly bug due to having left `self` instead of `this`
