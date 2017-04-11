@@ -23,7 +23,7 @@ describe('cloudwatch-integration', function() {
       console.error.restore();
     });
 
-    it('ignores upload calls if already in progress', function(done) {
+    it('ignores upload calls if putLogEvents already in progress', function(done) {
       const events = [{ message : "test message", timestamp : new Date().toISOString()}];
       aws.putLogEvents.onFirstCall().returns(); // Don't call call back to simulate ongoing request.
       aws.putLogEvents.onSecondCall().yields();
@@ -31,6 +31,19 @@ describe('cloudwatch-integration', function() {
       lib.upload(aws, 'group', 'stream', events, function() {
         // The second upload call should get ignored
         aws.putLogEvents.calledOnce.should.equal(true);
+        lib._postingEvents = false; // reset
+        done()
+      });
+    });
+
+    it('ignores upload calls if getToken already in progress', function(done) {
+      const events = [{ message : "test message", timestamp : new Date().toISOString()}];
+      lib.getToken.onFirstCall().returns(); // Don't call call back to simulate ongoing token request.
+      lib.getToken.onSecondCall().yields(null, 'token');
+      lib.upload(aws, 'group', 'stream', events, function(){});
+      lib.upload(aws, 'group', 'stream', events, function() {
+        // The second upload call should get ignored
+        lib.getToken.calledOnce.should.equal(true);
         lib._postingEvents = false; // reset
         done()
       });
