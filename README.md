@@ -35,7 +35,9 @@ $ npm install --save winston winston-cloudwatch
 
 ### Configuring
 
-AWS configuration works using `~/.aws/credentials` as written in [AWS JavaScript SDK guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials).
+AWS configuration works using `~/.aws/credentials` as written in [AWS JavaScript SDK guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials), 
+as a best practice remember to use one stream per resource, so for example if you have 4 servers you should setup 4 streams
+on AWS CloudWatch Logs, this is a general best practice to avoid incurring in token clashes and to avoid limits of the service (see [usage](#usage) for more).
 
 As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_the_Region):
 
