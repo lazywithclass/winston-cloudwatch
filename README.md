@@ -40,6 +40,8 @@ AWS configuration works using `~/.aws/credentials` as written in [AWS JavaScript
 As a best practice remember to use one stream per resource, so for example if you have 4 servers you should setup 4 streams
 on AWS CloudWatch Logs, this is a general best practice to avoid incurring in token clashes and to avoid limits of the service (see [usage](#usage) for more).
 
+#### Region note
+
 As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_the_Region):
 
  > The AWS SDK for Node.js doesn't select the region by default.
@@ -48,7 +50,13 @@ so you should take care of that. See the examples below.
 
 If either the group or the stream do not exist they will be created for you.
 
+#### AWS UI
+
 For displaying time in AWS CloudWatch UI you should click on the gear in the top right corner in the page with your logs and enable checkbox "Creation Time".
+
+##### TypeScript
+
+Remember to install types for both winston and this library.
 
 ### Usage
 
