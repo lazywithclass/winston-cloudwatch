@@ -1,3 +1,9 @@
+### 1.11.4
+
+Correctly stringifies Error objects preserving stuff like the message and the stack
+
+Fixes https://github.com/lazywithclass/winston-cloudwatch/issues/54
+
 ### 1.11.3
 
 Fixes https://github.com/lazywithclass/winston-cloudwatch/issues/55
