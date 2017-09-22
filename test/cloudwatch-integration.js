@@ -12,6 +12,7 @@ describe('cloudwatch-integration', function() {
 
     beforeEach(function() {
       aws.putLogEvents = sinon.stub().yields();
+      aws.putRetentionPolicy = sinon.stub().returns();
       sinon.stub(lib, 'getToken').yields(null, 'token');
       sinon.stub(lib, 'submitWithAnotherToken').yields();
       sinon.stub(console, 'error');
@@ -27,8 +28,8 @@ describe('cloudwatch-integration', function() {
       const events = [{ message : "test message", timestamp : new Date().toISOString()}];
       aws.putLogEvents.onFirstCall().returns(); // Don't call call back to simulate ongoing request.
       aws.putLogEvents.onSecondCall().yields();
-      lib.upload(aws, 'group', 'stream', events, function(){});
-      lib.upload(aws, 'group', 'stream', events, function() {
+      lib.upload(aws, 'group', 'stream', events, 0, function(){});
+      lib.upload(aws, 'group', 'stream', events, 0, function() {
         // The second upload call should get ignored
         aws.putLogEvents.calledOnce.should.equal(true);
         lib._postingEvents = false; // reset
@@ -40,8 +41,8 @@ describe('cloudwatch-integration', function() {
       const events = [{ message : "test message", timestamp : new Date().toISOString()}];
       lib.getToken.onFirstCall().returns(); // Don't call call back to simulate ongoing token request.
       lib.getToken.onSecondCall().yields(null, 'token');
-      lib.upload(aws, 'group', 'stream', events, function(){});
-      lib.upload(aws, 'group', 'stream', events, function() {
+      lib.upload(aws, 'group', 'stream', events, 0, function(){});
+      lib.upload(aws, 'group', 'stream', events, 0, function() {
         // The second upload call should get ignored
         lib.getToken.calledOnce.should.equal(true);
         lib._postingEvents = false; // reset
@@ -53,7 +54,7 @@ describe('cloudwatch-integration', function() {
       var BIG_MSG_LEN = 300000;
       const events = [{ message : new Array(BIG_MSG_LEN).join('A'), timestamp : new Date().toISOString()}];
       var errCalled = false;
-      lib.upload(aws, 'group', 'stream', events, function(err) {
+      lib.upload(aws, 'group', 'stream', events, 0, function(err) {
         if(err) {
           errCalled = true;
           return;
@@ -75,11 +76,11 @@ describe('cloudwatch-integration', function() {
         { message : bigMessage, timestamp : new Date().toISOString()},
         { message : bigMessage, timestamp : new Date().toISOString()}
       ];
-      lib.upload(aws, 'group', 'stream', events, function(err) {
+      lib.upload(aws, 'group', 'stream', events, 0, function(err) {
         aws.putLogEvents.calledOnce.should.equal(true);
         aws.putLogEvents.args[0][0].logEvents.length.should.equal(4); // First Batch
         // Now, finish.
-        lib.upload(aws, 'group', 'stream', events, function(err) {
+        lib.upload(aws, 'group', 'stream', events, 0, function(err) {
           aws.putLogEvents.args[1][0].logEvents.length.should.equal(1); // Second Batch
           done()
         });
@@ -87,7 +88,7 @@ describe('cloudwatch-integration', function() {
     });
 
     it('puts log events', function(done) {
-      lib.upload(aws, 'group', 'stream', Array(20), function() {
+      lib.upload(aws, 'group', 'stream', Array(20), 0, function() {
         aws.putLogEvents.calledOnce.should.equal(true);
         aws.putLogEvents.args[0][0].logGroupName.should.equal('group');
         aws.putLogEvents.args[0][0].logStreamName.should.equal('stream');
@@ -99,7 +100,7 @@ describe('cloudwatch-integration', function() {
 
     it('adds token to the payload only if it exists', function(done) {
       lib.getToken.yields(null);
-      lib.upload(aws, 'group', 'stream', Array(20), function() {
+      lib.upload(aws, 'group', 'stream', Array(20), 0, function() {
         aws.putLogEvents.calledOnce.should.equal(true);
         aws.putLogEvents.args[0][0].logGroupName.should.equal('group');
         aws.putLogEvents.args[0][0].logStreamName.should.equal('stream');
@@ -110,7 +111,7 @@ describe('cloudwatch-integration', function() {
     });
 
     it('does not put if events are empty', function(done) {
-      lib.upload(aws, 'group', 'stream', [], function() {
+      lib.upload(aws, 'group', 'stream', [], 0, function() {
         aws.putLogEvents.called.should.equal(false);
         done();
       });
@@ -118,7 +119,7 @@ describe('cloudwatch-integration', function() {
 
     it('errors if getting the token errors', function(done) {
       lib.getToken.yields('err');
-      lib.upload(aws, 'group', 'stream', Array(20), function(err) {
+      lib.upload(aws, 'group', 'stream', Array(20), 0, function(err) {
         err.should.equal('err');
         done();
       });
@@ -126,7 +127,7 @@ describe('cloudwatch-integration', function() {
 
     it('errors if putting log events errors', function(done) {
       aws.putLogEvents.yields('err');
-      lib.upload(aws, 'group', 'stream', Array(20), function(err) {
+      lib.upload(aws, 'group', 'stream', Array(20), 0, function(err) {
         err.should.equal('err');
         done();
       });
@@ -134,12 +135,27 @@ describe('cloudwatch-integration', function() {
 
     it('gets another token if InvalidSequenceTokenException', function(done) {
       aws.putLogEvents.yields({ code: 'InvalidSequenceTokenException' });
-      lib.upload(aws, 'group', 'stream', Array(20), function(err) {
+      lib.upload(aws, 'group', 'stream', Array(20), 0, function(err) {
         lib.submitWithAnotherToken.calledOnce.should.equal(true);
         done();
       });
     });
 
+  });
+
+  describe('putRetentionPolicy', function() {
+    var aws = {};
+    beforeEach(function() {
+      aws.putRetentionPolicy = sinon.stub().returns();
+    });
+    it('only logs retention policy if given > 0', function() {
+      lib.putRetentionPolicy(aws, 'group', 1);
+      aws.putRetentionPolicy.calledOnce.should.equal(true);
+    });
+    it('doesnt logs retention policy if given = 0', function() {
+      lib.putRetentionPolicy(aws, 'group', 0);
+      aws.putRetentionPolicy.calledOnce.should.equal(false);
+    });
   });
 
   describe('getToken', function() {
@@ -157,7 +173,7 @@ describe('cloudwatch-integration', function() {
     });
 
     it('ensures group and stream are present', function(done) {
-      lib.getToken(aws, 'group', 'stream', function() {
+      lib.getToken(aws, 'group', 'stream', 0, function() {
         lib.ensureGroupPresent.calledOnce.should.equal(true);
         lib.getStream.calledOnce.should.equal(true);
         done();
@@ -169,7 +185,7 @@ describe('cloudwatch-integration', function() {
       lib.getStream.yields(null, {
         uploadSequenceToken: 'token'
       });
-      lib.getToken(aws, 'group', 'stream', function(err, token) {
+      lib.getToken(aws, 'group', 'stream', 0, function(err, token) {
         should.not.exist(err);
         token.should.equal('token');
         done();
@@ -178,7 +194,7 @@ describe('cloudwatch-integration', function() {
 
     it('errors when ensuring group errors', function(done) {
       lib.ensureGroupPresent.yields('err');
-      lib.getToken(aws, 'group', 'stream', function(err) {
+      lib.getToken(aws, 'group', 'stream', 0, function(err) {
         err.should.equal('err');
         done();
       });
@@ -186,7 +202,7 @@ describe('cloudwatch-integration', function() {
 
     it('errors when ensuring stream errors', function(done) {
       lib.getStream.yields('err');
-      lib.getToken(aws, 'group', 'stream', function(err) {
+      lib.getToken(aws, 'group', 'stream', 0, function(err) {
         err.should.equal('err');
         done();
       });
@@ -204,12 +220,14 @@ describe('cloudwatch-integration', function() {
           cb(null, {});
         }
       };
+      lib.putRetentionPolicy = sinon.stub();
     });
 
     it('makes sure that a group is present', function(done) {
-      lib.ensureGroupPresent(aws, 'group', function(err, isPresent) {
+      lib.ensureGroupPresent(aws, 'group', 0, function(err, isPresent) {
         should.not.exist(err);
         isPresent.should.equal(true);
+        lib.putRetentionPolicy.calledWith(aws, 'group', 0).should.equal(true);
         done();
       });
     });
@@ -219,8 +237,9 @@ describe('cloudwatch-integration', function() {
       aws.describeLogStreams = sinon.stub().yields(err);
       aws.createLogGroup = sinon.stub().yields(null);
 
-      lib.ensureGroupPresent(aws, 'group', function(err, isPresent) {
+      lib.ensureGroupPresent(aws, 'group', 0, function(err, isPresent) {
         should.not.exist(err);
+        lib.putRetentionPolicy.calledWith(aws, 'group', 0).should.equal(true);
         isPresent.should.equal(true);
         done();
       });
@@ -229,7 +248,7 @@ describe('cloudwatch-integration', function() {
     it('errors if looking for a group errors', function(done) {
       aws.describeLogStreams = sinon.stub().yields('err');
 
-      lib.ensureGroupPresent(aws, 'group', function(err) {
+      lib.ensureGroupPresent(aws, 'group', 0, function(err) {
         err.should.equal('err');
         done();
       });
@@ -240,8 +259,9 @@ describe('cloudwatch-integration', function() {
       aws.describeLogStreams = sinon.stub().yields(err);
       aws.createLogGroup = sinon.stub().yields('err');
 
-      lib.ensureGroupPresent(aws, 'group', function(err) {
+      lib.ensureGroupPresent(aws, 'group', 0, function(err) {
         err.should.equal('err');
+        lib.putRetentionPolicy.calledOnce.should.equal(false);
         done();
       });
     });
@@ -411,7 +431,7 @@ describe('cloudwatch-integration', function() {
     });
 
     it('gets a token then resubmits', function(done) {
-      lib.submitWithAnotherToken(aws, 'group', 'stream', {}, function() {
+      lib.submitWithAnotherToken(aws, 'group', 'stream', {}, 0, function() {
         aws.putLogEvents.calledOnce.should.equal(true);
         aws.putLogEvents.args[0][0].sequenceToken.should.equal('new-token');
         done();

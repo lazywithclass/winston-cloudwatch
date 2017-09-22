@@ -14,6 +14,7 @@ var WinstonCloudWatch = function(options) {
   this.level = options.level || 'info';
   this.name = options.name || 'CloudWatch';
   this.logGroupName = options.logGroupName;
+  this.retentionInDays = options.retentionInDays || 0;
   this.logStreamName = options.logStreamName;
 
   var awsAccessKeyId = options.awsAccessKeyId;
@@ -110,6 +111,7 @@ WinstonCloudWatch.prototype.submit = function(callback) {
     this.logGroupName() : this.logGroupName;
   var streamName = typeof this.logStreamName === 'function' ?
     this.logStreamName() : this.logStreamName;
+  var retentionInDays = this.retentionInDays;
 
   if (_.isEmpty(this.logEvents)) {
     return callback();
@@ -120,6 +122,7 @@ WinstonCloudWatch.prototype.submit = function(callback) {
     groupName,
     streamName,
     this.logEvents,
+    retentionInDays,
     callback
   );
 };

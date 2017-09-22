@@ -106,6 +106,7 @@ This is the list of options you could pass as argument to `winston.add`:
  * proxyServer - `String`, use `proxyServer` as proxy in httpOptions
  * uploadRate - `Number`, how often logs have to be sent to AWS. Be careful of not hitting [AWS CloudWatch Logs limits](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_limits.html), the default is 2000ms.
  * errorHandler - `function`, invoked with an error object, if not provided the error is sent to `console.error`
+ * retentionInDays - defaults to `0`, if set to one of the possible values `1, 3, 5, 7, 14, 30, 60, 90, 120, 150, 180, 365, 400, 545, 731, 1827, and 3653` the retention policy on the log group written will be set to the value provided.
 
 AWS keys are usually picked by aws-sdk so you don't have to specify them, I provided the option just in case. Remember that `awsRegion` should still be set if you're using IAM roles.
 
