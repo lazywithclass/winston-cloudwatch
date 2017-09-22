@@ -1,3 +1,7 @@
+### 1.12.0
+
+Added ability to specify a retention policy
+
 ### 1.11.4
 
 Correctly stringifies Error objects preserving stuff like the message and the stack
