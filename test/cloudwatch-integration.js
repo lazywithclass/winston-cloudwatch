@@ -261,6 +261,7 @@ describe('cloudwatch-integration', function() {
 
       lib.ensureGroupPresent(aws, 'group', 0, function(err) {
         err.should.equal('err');
+        lib.putRetentionPolicy.calledOnce.should.equal(false);
         done();
       });
     });
