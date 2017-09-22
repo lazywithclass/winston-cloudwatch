@@ -17,7 +17,7 @@ describe('index', function() {
     }
   };
   var stubbedCloudwatchIntegration = {
-    upload: sinon.spy(function(aws, groupName, streamName, logEvents, cb) {
+    upload: sinon.spy(function(aws, groupName, streamName, logEvents, retention, cb) {
       this.lastLoggedEvents = logEvents.splice(0, 20);
       cb();
     })
