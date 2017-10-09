@@ -24,7 +24,7 @@ Send logs to Amazon Cloudwatch using Winston.
  * truncates messages that are too big
  * batches messages taking care of the AWS limit (you should use more streams if you hit this a lot)
  * support for Winston's uncaught exception handler
- * support for TypeScript, see https://github.com/lazywithclass/winston-cloudwatch/blob/master/typescript/winston-cloudwatch.d.ts
+ * support for TypeScript, see [TypeScript definition](https://github.com/lazywithclass/winston-cloudwatch/blob/master/typescript/winston-cloudwatch.d.ts)
  * [see options for more](#options)
 
 ### Installing
