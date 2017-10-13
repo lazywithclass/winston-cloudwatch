@@ -46,7 +46,7 @@ As specified [in the docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/nod
 
  > The AWS SDK for Node.js doesn't select the region by default.
 
-so you should take care of that. See the examples below.
+so you should take care of that. See the [examples](#examples) below.
 
 If either the group or the stream do not exist they will be created for you.
 
