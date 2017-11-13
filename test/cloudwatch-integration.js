@@ -167,12 +167,11 @@ describe('cloudwatch-integration', function() {
 
   describe('getToken', function() {
 
-    var aws = {};
+    var aws;
 
     beforeEach(function() {
       sinon.stub(lib, 'ensureGroupPresent').yields();
       sinon.stub(lib, 'getStream').yields();
-      aws.putLogEvents = sinon.stub().yields(null, { nextSequenceToken: 'token' });
     });
 
     afterEach(function() {
