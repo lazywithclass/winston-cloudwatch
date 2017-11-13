@@ -141,6 +141,13 @@ describe('cloudwatch-integration', function() {
       });
     });
 
+    it('gets another token if ResourceNotFoundException', function(done) {
+        aws.putLogEvents.yields({ code: 'InvalidSequenceTokenException' });
+        lib.upload(aws, 'group', 'stream', Array(20), 0, function(err) {
+            lib.submitWithAnotherToken.calledOnce.should.equal(true);
+            done();
+        });
+    });
   });
 
   describe('putRetentionPolicy', function() {
@@ -160,11 +167,12 @@ describe('cloudwatch-integration', function() {
 
   describe('getToken', function() {
 
-    var aws;
+    var aws = {};
 
     beforeEach(function() {
       sinon.stub(lib, 'ensureGroupPresent').yields();
       sinon.stub(lib, 'getStream').yields();
+      aws.putLogEvents = sinon.stub().yields(null, { nextSequenceToken: 'token' });
     });
 
     afterEach(function() {
@@ -207,7 +215,6 @@ describe('cloudwatch-integration', function() {
         done();
       });
     });
-
   });
 
   describe('ensureGroupPresent', function() {
