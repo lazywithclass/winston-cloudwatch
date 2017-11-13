@@ -189,8 +189,8 @@ describe('cloudwatch-integration', function() {
       lib.getStream.restore();
     });
 
-    it('ensures group and stream are present if no nextToken', function(done) {
-        lib.getToken(aws, 'group', 'stream', 0, function() {
+    it('ensures group and stream are present if no nextToken for group/stream', function(done) {
+      lib.getToken(aws, 'group', 'stream', 0, function() {
         lib.ensureGroupPresent.calledOnce.should.equal(true);
         lib.getStream.calledOnce.should.equal(true);
         done();
@@ -225,7 +225,7 @@ describe('cloudwatch-integration', function() {
       });
     });
 
-    it('does not ensure group and stream are present if nextToken for group/stream exists', function(done) {
+    it('does not ensure group and stream are present if nextToken for group/stream', function(done) {
       lib._nextToken = { 'group:stream': 'test123' };
       lib.getToken(aws, 'group', 'stream', 0, function() {
         lib.ensureGroupPresent.notCalled.should.equal(true);
