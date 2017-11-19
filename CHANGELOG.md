@@ -1,3 +1,7 @@
+### 1.13.0
+
+Save nextSequenceToken and reuse it for calls to AWS
+
 ### 1.12.0
 
 Added ability to specify a retention policy
