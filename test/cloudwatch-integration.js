@@ -22,6 +22,7 @@ describe('cloudwatch-integration', function() {
       lib.getToken.restore();
       lib.submitWithAnotherToken.restore();
       console.error.restore();
+      lib._nextToken = {};
     });
 
     it('ignores upload calls if putLogEvents already in progress', function(done) {
@@ -141,6 +142,22 @@ describe('cloudwatch-integration', function() {
       });
     });
 
+    it('gets another token if ResourceNotFoundException', function(done) {
+      aws.putLogEvents.yields({ code: 'InvalidSequenceTokenException' });
+      lib.upload(aws, 'group', 'stream', Array(20), 0, function(err) {
+        lib.submitWithAnotherToken.calledOnce.should.equal(true);
+        done();
+      });
+    });
+
+    it('nextToken is saved when available', function(done) {
+      var nextSequenceToken = 'abc123';
+      aws.putLogEvents.yields(null, { nextSequenceToken: nextSequenceToken });
+      lib.upload(aws, 'group', 'stream', Array(20), 0, function() {
+        sinon.assert.match(lib._nextToken, { 'group:stream': nextSequenceToken });
+        done();
+      });
+    });
   });
 
   describe('putRetentionPolicy', function() {
@@ -172,7 +189,7 @@ describe('cloudwatch-integration', function() {
       lib.getStream.restore();
     });
 
-    it('ensures group and stream are present', function(done) {
+    it('ensures group and stream are present if no nextToken for group/stream', function(done) {
       lib.getToken(aws, 'group', 'stream', 0, function() {
         lib.ensureGroupPresent.calledOnce.should.equal(true);
         lib.getStream.calledOnce.should.equal(true);
@@ -208,6 +225,14 @@ describe('cloudwatch-integration', function() {
       });
     });
 
+    it('does not ensure group and stream are present if nextToken for group/stream', function(done) {
+      lib._nextToken = { 'group:stream': 'test123' };
+      lib.getToken(aws, 'group', 'stream', 0, function() {
+        lib.ensureGroupPresent.notCalled.should.equal(true);
+        lib.getStream.notCalled.should.equal(true);
+        done();
+      });
+    });
   });
 
   describe('ensureGroupPresent', function() {
