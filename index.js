@@ -50,7 +50,7 @@ var WinstonCloudWatch = function(options) {
     config = { region: awsRegion };
   }
 
-  if(options.awsOptions){
+  if (options.awsOptions){
     config = _.assign(config, options.awsOptions);
   }
 
@@ -61,17 +61,28 @@ var WinstonCloudWatch = function(options) {
 
 util.inherits(WinstonCloudWatch, winston.Transport);
 
-WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
-  debug('log (called by winston)', level, msg, meta);
+WinstonCloudWatch.prototype.log = function (level, msg, meta, callback) {
+  // Winston 3.x support
+  // `callback` is the second of two parameters: (info, callback)
+  // @see https://github.com/winstonjs/winston#adding-custom-transports
+  var cb = callback === undefined ? msg : callback;
 
-  var log = { level: level, msg: msg, meta: meta };
-  if (!_.isEmpty(msg)) {
+  var log = callback === undefined ?
+  // Winston 3.x support
+  // `level` is an `info` object containing the actual message
+  // @see https://github.com/winstonjs/logform#info-objects
+    { level: level.level, msg: level.message } :
+    { level: level, msg: msg, meta: meta };
+  
+  debug('log (called by winston)', log.level, log.msg, log.meta);
+
+  if (!_.isEmpty(log.msg)) {
     this.add(log);
   }
 
-  if (!/^uncaughtException: /.test(msg)) {
+  if (!/^uncaughtException: /.test(log.msg)) {
     // do not wait, just return right away
-    return callback(null, true);
+    return cb(null, true);
   }
 
   // clear interval and send logs immediately
