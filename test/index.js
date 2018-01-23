@@ -31,7 +31,9 @@ describe('index', function() {
       warnOnReplace: false
     });
     mockery.registerAllowable('util');
-    mockery.registerAllowable('lodash');
+    mockery.registerAllowable('lodash.find');
+    mockery.registerAllowable('lodash.assign');
+    mockery.registerAllowable('lodash.isempty');
     mockery.registerAllowable('./lib/utils');
 
     mockery.registerMock('proxy-agent', function() { return 'fake' });

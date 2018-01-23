@@ -4,7 +4,8 @@ var util = require('util'),
     winston = require('winston'),
     AWS = require('aws-sdk'),
     cloudWatchIntegration = require('./lib/cloudwatch-integration'),
-    _ = require('lodash'),
+    isEmpty = require('lodash.isempty'),
+    assign = require('lodash.assign'),
     stringify = require('./lib/utils').stringify,
     debug = require('./lib/utils').debug;
 
@@ -21,7 +22,7 @@ var WinstonCloudWatch = function(options) {
   var awsSecretKey = options.awsSecretKey;
   var awsRegion = options.awsRegion;
   var messageFormatter = options.messageFormatter ? options.messageFormatter : function(log) {
-    return _.isEmpty(log.meta) && !(log.meta instanceof Error) ?
+    return isEmpty(log.meta) && !(log.meta instanceof Error) ?
       [ log.level, log.msg ].join(' - ') :
       [ log.level, log.msg, stringify(log.meta) ].join(' - ');
   };
@@ -50,8 +51,8 @@ var WinstonCloudWatch = function(options) {
     config = { region: awsRegion };
   }
 
-  if (options.awsOptions){
-    config = _.assign(config, options.awsOptions);
+  if (options.awsOptions) {
+    config = assign(config, options.awsOptions);
   }
 
   this.cloudwatchlogs = new AWS.CloudWatchLogs(config);
@@ -76,7 +77,7 @@ WinstonCloudWatch.prototype.log = function (level, msg, meta, callback) {
   
   debug('log (called by winston)', log.level, log.msg, log.meta);
 
-  if (!_.isEmpty(log.msg)) {
+  if (!isEmpty(log.msg)) {
     this.add(log);
   }
 
@@ -97,7 +98,7 @@ WinstonCloudWatch.prototype.add = function(log) {
 
   var self = this;
 
-  if (!_.isEmpty(log.msg)) {
+  if (!isEmpty(log.msg)) {
     self.logEvents.push({
       message: self.formatMessage(log),
       timestamp: new Date().getTime()
@@ -124,7 +125,7 @@ WinstonCloudWatch.prototype.submit = function(callback) {
     this.logStreamName() : this.logStreamName;
   var retentionInDays = this.retentionInDays;
 
-  if (_.isEmpty(this.logEvents)) {
+  if (isEmpty(this.logEvents)) {
     return callback();
   }
 
