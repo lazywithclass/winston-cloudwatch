@@ -199,6 +199,21 @@ describe('index', function() {
       });
     });
 
+    describe('info object and a callback as arguments', function() {
+      before(function(done) {
+        transport = new WinstonCloudWatch({});
+        transport.log({ level: 'level', message: 'message', key: 'value' }, function() {
+          clock.tick(2000);
+          done();
+        });
+      });
+
+      it('logs text', function() {
+        var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
+        message.should.equal('level - message');
+      });
+    });
+
     describe('handles error', function() {
 
       beforeEach(function() {
