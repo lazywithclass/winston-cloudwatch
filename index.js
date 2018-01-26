@@ -22,9 +22,7 @@ var WinstonCloudWatch = function(options) {
   var awsSecretKey = options.awsSecretKey;
   var awsRegion = options.awsRegion;
   var messageFormatter = options.messageFormatter ? options.messageFormatter : function(log) {
-    return isEmpty(log.meta) && !(log.meta instanceof Error) ?
-      [ log.level, log.msg ].join(' - ') :
-      [ log.level, log.msg, stringify(log.meta) ].join(' - ');
+    return [ log.level, log.msg ].join(' - ')
   };
   this.formatMessage = options.jsonMessage ? stringify : messageFormatter;
   var proxyServer = this.proxyServer = options.proxyServer;
