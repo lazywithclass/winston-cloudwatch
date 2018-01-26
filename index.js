@@ -62,20 +62,10 @@ var WinstonCloudWatch = function(options) {
 
 util.inherits(WinstonCloudWatch, winston.Transport);
 
-WinstonCloudWatch.prototype.log = function (level, msg, meta, callback) {
-  // Winston 3.x support
-  // `callback` is the second of two parameters: (info, callback)
-  // @see https://github.com/winstonjs/winston#adding-custom-transports
-  var cb = callback === undefined ? msg : callback;
+WinstonCloudWatch.prototype.log = function (info, callback) {
+  var log = { level: info.level, msg: info.message };
 
-  var log = callback === undefined ?
-  // Winston 3.x support
-  // `level` is an `info` object containing the actual message
-  // @see https://github.com/winstonjs/logform#info-objects
-    { level: level.level, msg: level.message } :
-    { level: level, msg: msg, meta: meta };
-  
-  debug('log (called by winston)', log.level, log.msg, log.meta);
+  debug('log (called by winston)', log.level, log.msg);
 
   if (!isEmpty(log.msg)) {
     this.add(log);
@@ -83,7 +73,7 @@ WinstonCloudWatch.prototype.log = function (level, msg, meta, callback) {
 
   if (!/^uncaughtException: /.test(log.msg)) {
     // do not wait, just return right away
-    return cb(null, true);
+    return callback(null, true);
   }
 
   // clear interval and send logs immediately
