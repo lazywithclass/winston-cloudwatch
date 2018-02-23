@@ -11,6 +11,8 @@ interface CloudWatchIntegration {
 }
 
 declare module "winston" {
+  
+  export type LogObject = {level: string, msg: string, meta?: any};
 
   export interface CloudwatchTransportOptions {
     level?: string;
@@ -21,7 +23,7 @@ declare module "winston" {
     awsRegion?: string;
     awsOptions?: CloudWatch.Types.ClientConfiguration;
     jsonMessage?: boolean;
-    messageFormatter?: winston.LogMethod;
+    messageFormatter?: (logObject: LogObject) => string;
     proxyServer?: string;
     uploadRate?: number;
     errorHandler?: ((err: Error) => void);
