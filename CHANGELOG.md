@@ -1,3 +1,7 @@
+### 1.13.1
+
+Fix TypeScript type https://github.com/lazywithclass/winston-cloudwatch/issues/79
+
 ### 1.13.0
 
 Save nextSequenceToken and reuse it for calls to AWS
