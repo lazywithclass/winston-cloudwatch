@@ -20,11 +20,11 @@
   "license": "MIT",
   "typings": "typescript/winston-cloudwatch.d.ts",
   "peerDependencies": {
+    "aws-sdk": "^2.29.0",
     "winston": "^2.1.1"
   },
   "dependencies": {
     "async": "^2.1.5",
-    "aws-sdk": "^2.29.0",
     "chalk": "^1.1.3",
     "lodash": "^4.17.4",
     "proxy-agent": "^2.0.0"
