@@ -124,7 +124,7 @@ describe('index', function() {
 
       before(function(done) {
         transport = new WinstonCloudWatch(options);
-        transport.log({ level: 'level', message: 'message' },
+        transport.log({ level: 'level', message: 'message', something: 'else' }, 
           function() {
             clock.tick(2000);
             done();
@@ -135,7 +135,8 @@ describe('index', function() {
         var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
         var jsonMessage = JSON.parse(message);
         jsonMessage.level.should.equal('level');
-        jsonMessage.msg.should.equal('message');
+	jsonMessage.message.should.equal('message');
+	jsonMessage.something.should.equal('else');
       });
     });
 
@@ -161,19 +162,19 @@ describe('index', function() {
 
         var options = {
           messageFormatter: function(log) {
-            return 'custom formatted log message';
+            return log.level + ' ' + log.message + ' ' + log.something; 
           }
         };
 
         before(function(done) {
           transport = new WinstonCloudWatch(options);
-          transport.log({ level: 'level', message: 'message' }, done);
+	  transport.log({ level: 'level', message: 'message', something: 'else' }, done);
           clock.tick(2000);
         });
 
         it('logs text', function() {
           var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
-          message.should.equal('custom formatted log message');
+          message.should.equal('level message else');
         });
       });
     });

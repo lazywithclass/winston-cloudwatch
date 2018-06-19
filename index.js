@@ -22,7 +22,7 @@ var WinstonCloudWatch = function(options) {
   var awsSecretKey = options.awsSecretKey;
   var awsRegion = options.awsRegion;
   var messageFormatter = options.messageFormatter ? options.messageFormatter : function(log) {
-    return [ log.level, log.msg ].join(' - ')
+    return [ log.level, log.message ].join(' - ')
   };
   this.formatMessage = options.jsonMessage ? stringify : messageFormatter;
   var proxyServer = this.proxyServer = options.proxyServer;
@@ -61,15 +61,13 @@ var WinstonCloudWatch = function(options) {
 util.inherits(WinstonCloudWatch, winston.Transport);
 
 WinstonCloudWatch.prototype.log = function (info, callback) {
-  var log = { level: info.level, msg: info.message };
+  debug('log (called by winston)', info);
 
-  debug('log (called by winston)', log.level, log.msg);
-
-  if (!isEmpty(log.msg)) {
-    this.add(log);
+  if (!isEmpty(info.message)) { 
+    this.add(info);
   }
 
-  if (!/^uncaughtException: /.test(log.msg)) {
+  if (!/^uncaughtException: /.test(info.message)) {
     // do not wait, just return right away
     return callback(null, true);
   }
@@ -86,7 +84,7 @@ WinstonCloudWatch.prototype.add = function(log) {
 
   var self = this;
 
-  if (!isEmpty(log.msg)) {
+  if (!isEmpty(log.message)) {
     self.logEvents.push({
       message: self.formatMessage(log),
       timestamp: new Date().getTime()

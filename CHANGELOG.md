@@ -1,3 +1,8 @@
+### 2.0.0
+
+Update to Winston 3.0. Update dependencies.
+(thanks to @nfantone and @patrickrgaffney for the precious help)
+
 ### 1.13.1
 
 Fix TypeScript type https://github.com/lazywithclass/winston-cloudwatch/issues/79
