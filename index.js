@@ -4,7 +4,8 @@ var util = require('util'),
     winston = require('winston'),
     AWS = require('aws-sdk'),
     cloudWatchIntegration = require('./lib/cloudwatch-integration'),
-    _ = require('lodash'),
+    isEmpty = require('lodash.isempty'),
+    assign = require('lodash.assign'),
     stringify = require('./lib/utils').stringify,
     debug = require('./lib/utils').debug;
 
@@ -21,9 +22,7 @@ var WinstonCloudWatch = function(options) {
   var awsSecretKey = options.awsSecretKey;
   var awsRegion = options.awsRegion;
   var messageFormatter = options.messageFormatter ? options.messageFormatter : function(log) {
-    return _.isEmpty(log.meta) && !(log.meta instanceof Error) ?
-      [ log.level, log.msg ].join(' - ') :
-      [ log.level, log.msg, stringify(log.meta) ].join(' - ');
+    return [ log.level, log.msg ].join(' - ')
   };
   this.formatMessage = options.jsonMessage ? stringify : messageFormatter;
   var proxyServer = this.proxyServer = options.proxyServer;
@@ -50,8 +49,8 @@ var WinstonCloudWatch = function(options) {
     config = { region: awsRegion };
   }
 
-  if(options.awsOptions){
-    config = _.assign(config, options.awsOptions);
+  if (options.awsOptions) {
+    config = assign(config, options.awsOptions);
   }
 
   this.cloudwatchlogs = new AWS.CloudWatchLogs(config);
@@ -61,15 +60,16 @@ var WinstonCloudWatch = function(options) {
 
 util.inherits(WinstonCloudWatch, winston.Transport);
 
-WinstonCloudWatch.prototype.log = function(level, msg, meta, callback) {
-  debug('log (called by winston)', level, msg, meta);
+WinstonCloudWatch.prototype.log = function (info, callback) {
+  var log = { level: info.level, msg: info.message };
 
-  var log = { level: level, msg: msg, meta: meta };
-  if (!_.isEmpty(msg)) {
+  debug('log (called by winston)', log.level, log.msg);
+
+  if (!isEmpty(log.msg)) {
     this.add(log);
   }
 
-  if (!/^uncaughtException: /.test(msg)) {
+  if (!/^uncaughtException: /.test(log.msg)) {
     // do not wait, just return right away
     return callback(null, true);
   }
@@ -86,7 +86,7 @@ WinstonCloudWatch.prototype.add = function(log) {
 
   var self = this;
 
-  if (!_.isEmpty(log.msg)) {
+  if (!isEmpty(log.msg)) {
     self.logEvents.push({
       message: self.formatMessage(log),
       timestamp: new Date().getTime()
@@ -113,7 +113,7 @@ WinstonCloudWatch.prototype.submit = function(callback) {
     this.logStreamName() : this.logStreamName;
   var retentionInDays = this.retentionInDays;
 
-  if (_.isEmpty(this.logEvents)) {
+  if (isEmpty(this.logEvents)) {
     return callback();
   }
 

@@ -31,7 +31,9 @@ describe('index', function() {
       warnOnReplace: false
     });
     mockery.registerAllowable('util');
-    mockery.registerAllowable('lodash');
+    mockery.registerAllowable('lodash.find');
+    mockery.registerAllowable('lodash.assign');
+    mockery.registerAllowable('lodash.isempty');
     mockery.registerAllowable('./lib/utils');
 
     mockery.registerMock('proxy-agent', function() { return 'fake' });
@@ -91,7 +93,7 @@ describe('index', function() {
 
     beforeEach(function(done) {
       transport = new WinstonCloudWatch({});
-      transport.log('level', null, {key: 'value'}, function() {
+      transport.log({ level: 'level' }, function() {
         clock.tick(2000);
         done();
       });
@@ -104,7 +106,7 @@ describe('index', function() {
 
     it('flushes logs and exits in case of an exception', function(done) {
       transport = new WinstonCloudWatch({});
-      transport.log('level', 'uncaughtException: ', {}, function() {
+      transport.log({ message: 'uncaughtException: ' }, function() {
         clock.tick(2000);
         should.not.exist(transport.intervalId);
         // if done is called it means submit(callback) has been called
@@ -122,10 +124,11 @@ describe('index', function() {
 
       before(function(done) {
         transport = new WinstonCloudWatch(options);
-        transport.log('level', 'message', {key: 'value'}, function() {
-          clock.tick(2000);
-          done();
-        });
+        transport.log({ level: 'level', message: 'message' },
+          function() {
+            clock.tick(2000);
+            done();
+          });
       });
 
       it('logs json', function() {
@@ -133,7 +136,6 @@ describe('index', function() {
         var jsonMessage = JSON.parse(message);
         jsonMessage.level.should.equal('level');
         jsonMessage.msg.should.equal('message');
-        jsonMessage.meta.key.should.equal('value');
       });
     });
 
@@ -142,39 +144,16 @@ describe('index', function() {
       var transport;
 
       describe('using the default formatter', function() {
-
         var options = {};
-
-        describe('with metadata', function() {
-
-          var meta = {key: 'value'};
-
-          before(function(done) {
-            transport = new WinstonCloudWatch(options);
-            transport.log('level', 'message', meta, done);
-            clock.tick(2000);
-          });
-
-          it('logs text', function() {
-            var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
-            message.should.equal('level - message - {\n  "key": "value"\n}');
-          });
+        before(function(done) {
+          transport = new WinstonCloudWatch(options);
+          transport.log({ level: 'level', message: 'message' }, done);
+          clock.tick(2000);
         });
 
-        describe('without metadata', function() {
-
-          var meta = {};
-
-          before(function(done) {
-            transport = new WinstonCloudWatch(options);
-            transport.log('level', 'message', {}, done);
-            clock.tick(2000);
-          });
-
-          it('logs text', function() {
-            var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
-            message.should.equal('level - message');
-          });
+        it('logs text', function() {
+          var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
+          message.should.equal('level - message');
         });
       });
 
@@ -188,7 +167,7 @@ describe('index', function() {
 
         before(function(done) {
           transport = new WinstonCloudWatch(options);
-          transport.log('level', 'message', {key: 'value'}, done);
+          transport.log({ level: 'level', message: 'message' }, done);
           clock.tick(2000);
         });
 
@@ -196,6 +175,21 @@ describe('index', function() {
           var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
           message.should.equal('custom formatted log message');
         });
+      });
+    });
+
+    describe('info object and a callback as arguments', function() {
+      before(function(done) {
+        transport = new WinstonCloudWatch({});
+        transport.log({ level: 'level', message: 'message' }, function() {
+          clock.tick(2000);
+          done();
+        });
+      });
+
+      it('logs text', function() {
+        var message = stubbedCloudwatchIntegration.lastLoggedEvents[0].message;
+        message.should.equal('level - message');
       });
     });
 
@@ -219,14 +213,14 @@ describe('index', function() {
         var transport = new WinstonCloudWatch({
           errorHandler: errorHandlerSpy
         });
-        transport.log('level', 'message', { answer: 42 }, sinon.stub());
+        transport.log({ level: 'level', message: 'message' }, sinon.stub());
         clock.tick(2000);
         errorHandlerSpy.args[0][0].should.equal('ERROR');
       });
 
       it('console.error if errorHandler is not provided', function() {
         var transport = new WinstonCloudWatch({});
-        transport.log('level', 'message', { answer: 42 }, sinon.stub());
+        transport.log({ level: 'level', message: 'message' }, sinon.stub());
         clock.tick(2000);
         console.error.args[0][0].should.equal('ERROR');
       });
