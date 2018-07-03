@@ -4,9 +4,10 @@ var winston = require('winston'),
 
 // when you don't provide a name the default one
 // is CloudWatch
-winston.add(WinstonCloudWatch, {
+winston.add(new WinstonCloudWatch({
   logGroupName: 'testing',
-  logStreamName: 'first'
-});
+  logStreamName: 'first',
+  awsRegion: 'us-east-1'
+}));
 
 winston.error('1');
