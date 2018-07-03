@@ -20,7 +20,7 @@
   "license": "MIT",
   "typings": "typescript/winston-cloudwatch.d.ts",
   "peerDependencies": {
-    "winston": "^3.0.0-rc1"
+    "winston": "^3.0.0"
   },
   "dependencies": {
     "async": "^2.6.1",
@@ -29,6 +29,7 @@
     "lodash.assign": "^4.2.0",
     "lodash.find": "^4.6.0",
     "lodash.isempty": "^4.4.0",
+    "lodash.iserror": "^3.1.1",
     "proxy-agent": "^3.0.0"
   },
   "devDependencies": {

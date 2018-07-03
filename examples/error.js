@@ -1,13 +1,19 @@
 var winston = require('winston'),
-    WinstonCloudWatch = require('../index');
+    WinstonCloudWatch = require('../index')
 
 
 // when you don't provide a name the default one
 // is CloudWatch
-winston.add(WinstonCloudWatch, {
+winston.add(new WinstonCloudWatch({
   logGroupName: 'testing',
-  logStreamName: 'first'
-});
+  logStreamName: 'another',
+  awsRegion: 'us-east-1'
+}))
 
-var error = new Error('we are doooooomed!');
-winston.error('error', error)
+var error = new Error('are we doooooomed?')
+winston.error({ message: error })
+
+// or also
+
+var error = new Error('definitely.')
+winston.error(error)

@@ -6,6 +6,7 @@ var util = require('util'),
     cloudWatchIntegration = require('./lib/cloudwatch-integration'),
     isEmpty = require('lodash.isempty'),
     assign = require('lodash.assign'),
+    isError = require('lodash.iserror'),
     stringify = require('./lib/utils').stringify,
     debug = require('./lib/utils').debug;
 
@@ -63,7 +64,7 @@ util.inherits(WinstonCloudWatch, winston.Transport);
 WinstonCloudWatch.prototype.log = function (info, callback) {
   debug('log (called by winston)', info);
 
-  if (!isEmpty(info.message)) { 
+  if (!isEmpty(info.message) || isError(info.message)) { 
     this.add(info);
   }
 
@@ -71,6 +72,8 @@ WinstonCloudWatch.prototype.log = function (info, callback) {
     // do not wait, just return right away
     return callback(null, true);
   }
+
+  debug('message not empty, proceeding')
 
   // clear interval and send logs immediately
   // as Winston is about to end the process
@@ -84,7 +87,7 @@ WinstonCloudWatch.prototype.add = function(log) {
 
   var self = this;
 
-  if (!isEmpty(log.message)) {
+  if (!isEmpty(log.message) || isError(log.message)) {
     self.logEvents.push({
       message: self.formatMessage(log),
       timestamp: new Date().getTime()
