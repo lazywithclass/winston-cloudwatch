@@ -2,25 +2,36 @@ var winston = require('winston'),
     WinstonCloudWatch = require('../index');
 
 
-winston.transports.CloudWatch1 = WinstonCloudWatch;
-winston.transports.CloudWatch2 = WinstonCloudWatch;
-
-winston.loggers.add('category1', {
-  // note that this is the same property name
-  // that we've added to winston.transports
-  CloudWatch1: {
-    logGroupName: 'testing',
-    logStreamName: 'first'
-  }
-});
-winston.loggers.add('category2', {
-  // note that this is the same property name
-  // that we've added to winston.transports
-  CloudWatch2: {
-    logGroupName: 'testing',
-    logStreamName: 'second'
-  }
+const logger = winston.createLogger({
+  transports: [
+    new WinstonCloudWatch({
+      name: 'first-stream',
+      logGroupName: 'testing',
+      logStreamName: 'first',
+      awsRegion: 'us-east-1'
+    }),
+    new WinstonCloudWatch({
+      name: 'second-stream',
+      logGroupName: 'testing',
+      logStreamName: 'second',
+      awsRegion: 'us-east-1'
+    })
+  ]
 });
 
-winston.loggers.get('category1').error('1');
-winston.loggers.get('category2').error('2');
+// both logs will be logged to both streams
+logger.error('something')
+logger.error('happened')
+
+const singleLogger = winston.createLogger({
+  transports: [
+    new WinstonCloudWatch({
+      name: 'first-stream',
+      logGroupName: 'testing',
+      logStreamName: 'first',
+      awsRegion: 'us-east-1'
+    })
+  ]
+});
+
+singleLogger.error('only on the first')
