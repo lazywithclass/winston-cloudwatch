@@ -24,7 +24,7 @@ winston.loggers.add('access-log', {
           .update(startTime)
           .digest('hex');
       },
-      awsRegion: 'us-west-2',
+      awsRegion: 'us-east-1',
       jsonMessage: true
     })
   ]
