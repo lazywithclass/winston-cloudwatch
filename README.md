@@ -3,8 +3,10 @@
 [![Build Status](https://travis-ci.org/lazywithclass/winston-cloudwatch.svg?branch=master)](https://travis-ci.org/lazywithclass/winston-cloudwatch) [![Coverage Status](https://coveralls.io/repos/github/lazywithclass/winston-cloudwatch/badge.svg?branch=master)](https://coveralls.io/github/lazywithclass/winston-cloudwatch?branch=master) [![Dependency Status](https://david-dm.org/lazywithclass/winston-cloudwatch.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch) [![dev dependencies](https://david-dm.org/lazywithclass/winston-cloudwatch/dev-status.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch#info=devDependencies) [![peer dependencies](https://david-dm.org/lazywithclass/winston-cloudwatch/peer-status.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch#info=peerDependencies)
 ==================
 
-Send logs to Amazon Cloudwatch using Winston (if you were using this library before version 2.0.0 have a look at the 
-[migration guide for Winston](https://github.com/winstonjs/winston/blob/master/UPGRADE-3.0.md) and at the 
+Send logs to Amazon Cloudwatch using [Winston](https://github.com/winstonjs/winston)
+
+If you were using this library before version 2.0.0 have a look at the 
+[migration guide for Winston](https://github.com/winstonjs/winston/blob/master/UPGRADE-3.0.md) and at the updated
 [examples](examples).
 
  * [Features](#features)
