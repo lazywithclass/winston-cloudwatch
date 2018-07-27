@@ -34,7 +34,6 @@
   },
   "devDependencies": {
     "@types/node": "10.3.4",
-    "@types/winston": "2.3.9",
     "clarify": "^2.1.0",
     "coveralls": "^3.0.1",
     "istanbul": "^0.4.5",
@@ -42,6 +41,7 @@
     "mockery": "^2.1.0",
     "npm-check-updates": "^2.14.2",
     "should": "^13.2.1",
-    "sinon": "^6.0.0"
+    "sinon": "^6.0.0",
+    "winston": "^3.0.0"
   }
 }
