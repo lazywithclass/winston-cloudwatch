@@ -26,7 +26,7 @@ var WinstonCloudWatch = function(options) {
     return [ log.level, log.message ].join(' - ')
   };
   this.formatMessage = options.jsonMessage ? stringify : messageFormatter;
-  var proxyServer = this.proxyServer = options.proxyServer;
+  this.proxyServer = options.proxyServer;
   this.uploadRate = options.uploadRate || 2000;
   this.logEvents = [];
   this.errorHandler = options.errorHandler;
