@@ -1,7 +1,10 @@
+### 2.0.2
+
+New version just because I forgot to add silent property to TS definition
+
 ### 2.0.1
 
-Remove unused variables; example on how to use messageFormatter;
-add silent property to TS definition
+Remove unused variables; example on how to use messageFormatter
 
 ### 2.0.0
 
