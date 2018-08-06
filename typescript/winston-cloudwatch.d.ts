@@ -27,6 +27,7 @@ declare module "winston" {
     proxyServer?: string;
     uploadRate?: number;
     errorHandler?: ((err: Error) => void);
+    silent?: boolean;
   }
 
   export interface Winston {
