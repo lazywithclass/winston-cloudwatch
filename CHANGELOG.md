@@ -1,3 +1,8 @@
+### 2.0.1
+
+Remove unused variables; example on how to use messageFormatter;
+add silent property to TS definition
+
 ### 2.0.0
 
 Update to Winston 3.0. Update dependencies.
