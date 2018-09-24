@@ -67,13 +67,13 @@ Remember to install types for both winston and this library.
 Please refer to [AWS CloudWatch Logs documentation](http://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutLogEvents.html) for possible contraints that might affect you.
 Also have a look at [AWS CloudWatch Logs limits](http://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/cloudwatch_limits.html).
 
-Usage in ES5
+In ES5
 ```js
 var winston = require('winston'),
     WinstonCloudWatch = require('winston-cloudwatch');
 ```
 
-Usage in ES6
+In ES6
 ```js
 import winston from 'winston';
 import WinstonCloudWatch from 'winston-cloudwatch';
