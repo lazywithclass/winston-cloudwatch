@@ -1,3 +1,7 @@
+### 2.0.3
+
+stringify supports circular references
+
 ### 2.0.2
 
 New version just because I forgot to add silent property to TS definition
