@@ -41,7 +41,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
     "mockery": "^2.1.0",
-    "npm-check-updates": "^2.14.2",
+    "npm-check-updates": "^2.15.0",
     "should": "^13.2.1",
     "sinon": "^6.0.0"
   }
