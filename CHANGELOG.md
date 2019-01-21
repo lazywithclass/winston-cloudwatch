@@ -1,3 +1,7 @@
+### 2.0.4
+
+updated TS definitions
+
 ### 2.0.3
 
 stringify supports circular references
