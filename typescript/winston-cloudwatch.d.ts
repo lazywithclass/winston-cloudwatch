@@ -3,7 +3,7 @@ import * as Transport from "winston-transport";
 
 import { CloudWatch, CloudWatchLogs } from "aws-sdk";
 
-export namespace WinstonCloudWatch {
+declare namespace WinstonCloudWatch {
   export type LogObject = { level: string; msg: string; meta?: any };
 
   export interface CloudWatchIntegration {
@@ -66,3 +66,7 @@ export namespace WinstonCloudWatch {
     CloudWatch: CloudwatchTransportInstance;
   }
 }
+
+declare const WinstonCloudWatch: WinstonCloudWatch.CloudWatchIntegration;
+
+export default WinstonCloudWatch;
