@@ -1,6 +1,6 @@
 {
   "name": "winston-cloudwatch",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Send logs to Amazon Cloudwatch using Winston.",
   "keywords": [
     "amazon",
