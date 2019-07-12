@@ -55,6 +55,7 @@ declare namespace WinstonCloudWatch {
     uploadRate?: number;
     errorHandler?: ((err: Error) => void);
     silent?: boolean;
+    retentionInDays?: number;
   }
 
   export interface CloudwatchTransportInstance extends winston.Logger {
