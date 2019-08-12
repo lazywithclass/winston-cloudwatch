@@ -1,10 +1,9 @@
-import Transport = require("winston-transport");
+import TransportStream = require("winston-transport");
 
 import { CloudWatch, CloudWatchLogs } from "aws-sdk";
 
-type LogObject = { level: string; msg: string; meta?: any };
-
-class WinstonCloudWatch extends Transport {
+// Declare the default WinstonCloudwatch class
+declare class WinstonCloudwatch extends TransportStream {
   kthxbye(callback: () => void): void;
   upload(
     aws: CloudWatchLogs,
@@ -37,26 +36,29 @@ class WinstonCloudWatch extends Transport {
     ) => void)
   ): void;
   ignoreInProgress(cb: ((err: Error) => void)): void;
-  constructor (options?: CloudwatchTransportOptions): WinstonCloudWatch;
+  constructor (options?: WinstonCloudwatch.CloudwatchTransportOptions);
 }
+// Export the default winston cloudwatch class
+export = WinstonCloudwatch;
 
-interface CloudwatchTransportOptions {
-  level?: string;
-  logGroupName?: string | (() => string);
-  logStreamName?: string | (() => string);
-  awsAccessKeyId?: string;
-  awsSecretKey?: string;
-  awsRegion?: string;
-  awsOptions?: CloudWatch.Types.ClientConfiguration;
-  jsonMessage?: boolean;
-  messageFormatter?: (logObject: LogObject) => string;
-  proxyServer?: string;
-  uploadRate?: number;
-  errorHandler?: ((err: Error) => void);
-  silent?: boolean;
+// Declare optional exports
+declare namespace WinstonCloudwatch {
+
+  export type LogObject = { level: string; msg: string; meta?: any };
+
+  export interface CloudwatchTransportOptions {
+    level?: string;
+    logGroupName?: string | (() => string);
+    logStreamName?: string | (() => string);
+    awsAccessKeyId?: string;
+    awsSecretKey?: string;
+    awsRegion?: string;
+    awsOptions?: CloudWatch.Types.ClientConfiguration;
+    jsonMessage?: boolean;
+    messageFormatter?: (logObject: LogObject) => string;
+    proxyServer?: string;
+    uploadRate?: number;
+    errorHandler?: ((err: Error) => void);
+    silent?: boolean;
+  }
 }
-
-declare module "winston-cloudwatch" {
-  export  = WinstonCloudWatch;
-}
-
