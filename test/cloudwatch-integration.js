@@ -33,7 +33,7 @@ describe('cloudwatch-integration', function() {
       lib.upload(aws, 'group', 'stream', events, 0, function() {
         // The second upload call should get ignored
         aws.putLogEvents.calledOnce.should.equal(true);
-        lib._postingEvents = false; // reset
+        lib._postingEvents['stream'] = false; // reset
         done()
       });
     });
@@ -46,9 +46,22 @@ describe('cloudwatch-integration', function() {
       lib.upload(aws, 'group', 'stream', events, 0, function() {
         // The second upload call should get ignored
         lib.getToken.calledOnce.should.equal(true);
-        lib._postingEvents = false; // reset
+        lib._postingEvents['stream'] = false; // reset
         done()
       });
+    });
+
+    it('not ignores upload calls if getToken already in progress for another stream', function(done) {
+      const events = [{ message : "test message", timestamp : new Date().toISOString()}];
+      lib.getToken.onFirstCall().returns(); // Don't call call back to simulate ongoing token request.
+      lib.getToken.onSecondCall().yields(null, 'token');
+      lib.upload(aws, 'group', 'stream1', events, 0, function(){ });
+      lib.upload(aws, 'group', 'stream2', events, 0, function(){ done() });
+
+      lib.getToken.calledTwice.should.equal(true);
+
+      lib._postingEvents['stream1'] = false; // reset
+      lib._postingEvents['stream2'] = false; // reset
     });
 
     it('truncates very large messages and alerts the error handler', function(done) {
