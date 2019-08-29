@@ -58,6 +58,7 @@ declare namespace WinstonCloudwatch {
     messageFormatter?: (logObject: LogObject) => string;
     proxyServer?: string;
     uploadRate?: number;
+    retentionInDays?: number;
     errorHandler?: ((err: Error) => void);
     silent?: boolean;
   }
