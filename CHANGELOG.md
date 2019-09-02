@@ -1,3 +1,7 @@
+### 2.0.8
+
+updated TS definitions
+
 ### 2.0.7
 
 updated TS definitions
