@@ -60,5 +60,6 @@ declare namespace WinstonCloudwatch {
     uploadRate?: number;
     errorHandler?: ((err: Error) => void);
     silent?: boolean;
+    retentionInDays?: number;
   }
 }
