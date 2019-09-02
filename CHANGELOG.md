@@ -1,26 +1,30 @@
+### 2.0.9
+
+The check to see if we're already posting events is now stream dependent
+
 ### 2.0.8
 
-updated TS definitions
+Updated TS definitions
 
 ### 2.0.7
 
-updated TS definitions
+Updated TS definitions
 
 ### 2.0.6
 
-updated TS definitions
+Updated TS definitions
 
 ### 2.0.5
 
-updated TS definitions
+Updated TS definitions
 
 ### 2.0.4
 
-updated TS definitions
+Updated TS definitions
 
 ### 2.0.3
 
-stringify supports circular references
+Stringify supports circular references
 
 ### 2.0.2
 
