@@ -268,7 +268,7 @@ describe('index', function() {
     });
 
     it('should not send all messages if called while posting', function(done) {
-      for (let index = 0; index < 30; index++) {
+      for (var index = 0; index < 30; index++) {
         transport.add({ message: 'message' + index });
       }
 
