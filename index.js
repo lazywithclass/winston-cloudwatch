@@ -131,7 +131,12 @@ WinstonCloudWatch.prototype.submit = function(callback) {
 WinstonCloudWatch.prototype.kthxbye = function(callback) {
   clearInterval(this.intervalId);
   this.intervalId = null;
-  this.submit(callback);
+  
+  this.submit((function(error) {    
+    if (error) return callback(error);
+    if (isEmpty(this.logEvents)) return callback();
+    else this.kthxbye(callback);
+  }).bind(this));
 };
 
 winston.transports.CloudWatch = WinstonCloudWatch;

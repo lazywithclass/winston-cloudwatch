@@ -238,7 +238,10 @@ describe('index', function() {
       sinon.stub(global, 'setInterval');
       sinon.stub(global, 'clearInterval');
       transport = new WinstonCloudWatch({});
-      sinon.stub(transport, 'submit').yields();
+      sinon.stub(transport, 'submit').callsFake(function(cb){
+        this.logEvents.splice(0, 20);
+        cb();
+      });
     });
 
     afterEach(function() {
@@ -263,6 +266,17 @@ describe('index', function() {
         done();
       });
     });
+
+    it('should not send all messages if called while posting', function(done) {
+      for (let index = 0; index < 30; index++) {
+        transport.add({ message: 'message' + index });
+      }
+
+      transport.kthxbye(function() {        
+        transport.logEvents.length.should.equal(0);
+        done();
+      });
+    });    
   });
 
 });
