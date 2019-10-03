@@ -276,6 +276,8 @@ describe('index', function() {
         transport.logEvents.length.should.equal(0);
         done();
       });
+
+      clock.tick(1);
     });    
   });
 

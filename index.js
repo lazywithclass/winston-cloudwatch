@@ -135,7 +135,7 @@ WinstonCloudWatch.prototype.kthxbye = function(callback) {
   this.submit((function(error) {    
     if (error) return callback(error);
     if (isEmpty(this.logEvents)) return callback();
-    else this.kthxbye(callback);
+    else setTimeout(this.kthxbye.bind(this, callback), 0);
   }).bind(this));
 };
 
