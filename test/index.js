@@ -49,6 +49,7 @@ describe('index', function() {
   after(function() {
     mockery.deregisterAll();
     mockery.disable();
+    clock.restore();
   });
 
   describe('construtor', function() {
@@ -206,7 +207,7 @@ describe('index', function() {
       afterEach(function() {
         stubbedCloudwatchIntegration = {
           upload: sinon.spy()
-        };
+        };        
         console.error.restore();
       });
 
@@ -278,7 +279,23 @@ describe('index', function() {
       });
 
       clock.tick(1);
-    });    
+    });
+    
+    it('should exit if logs are not cleared by the timeout period', function(done) {            
+      transport.add({ message: 'message' });
+      transport.submit.callsFake(function(cb){
+        clock.tick(500);
+        cb(); // callback is called but logEvents is not cleared
+      }); 
+
+      transport.kthxbye(function(error) {
+        error.should.be.Error();
+        transport.logEvents.length.should.equal(1);
+        done();
+      });
+
+      clock.tick(1);
+    });
   });
 
 });

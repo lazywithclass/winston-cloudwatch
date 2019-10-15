@@ -8,8 +8,8 @@ var util = require('util'),
     assign = require('lodash.assign'),
     isError = require('lodash.iserror'),
     stringify = require('./lib/utils').stringify,
-    debug = require('./lib/utils').debug;
-
+    debug = require('./lib/utils').debug,
+    defaultFlushTimeoutMs = 10000;
 
 var WinstonCloudWatch = function(options) {
   winston.Transport.call(this, options);
@@ -128,13 +128,15 @@ WinstonCloudWatch.prototype.submit = function(callback) {
   );
 };
 
-WinstonCloudWatch.prototype.kthxbye = function(callback) {
+WinstonCloudWatch.prototype.kthxbye = function(callback) {  
   clearInterval(this.intervalId);
   this.intervalId = null;
-  
+  this.flushTimeout = this.flushTimeout || (Date.now() + defaultFlushTimeoutMs);
+
   this.submit((function(error) {    
     if (error) return callback(error);
     if (isEmpty(this.logEvents)) return callback();
+    if (Date.now() > this.flushTimeout) return callback(new Error('Timeout reached while waiting for logs to submit'));
     else setTimeout(this.kthxbye.bind(this, callback), 0);
   }).bind(this));
 };
