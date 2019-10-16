@@ -205,9 +205,7 @@ describe('index', function() {
       });
 
       afterEach(function() {
-        stubbedCloudwatchIntegration = {
-          upload: sinon.spy()
-        };        
+        stubbedCloudwatchIntegration.upload = sinon.spy();
         console.error.restore();
       });
 
