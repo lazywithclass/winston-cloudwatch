@@ -1,6 +1,6 @@
 {
   "name": "winston-cloudwatch",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "description": "Send logs to Amazon Cloudwatch using Winston.",
   "keywords": [
     "amazon",
@@ -23,26 +23,26 @@
     "winston": "^3.0.0"
   },
   "dependencies": {
-    "async": "^2.6.1",
-    "aws-sdk": "^2.259.1",
-    "chalk": "^2.4.1",
-    "fast-safe-stringify": "^2.0.6",
+    "async": "^3.1.0",
+    "aws-sdk": "^2.553.0",
+    "chalk": "^2.4.2",
+    "fast-safe-stringify": "^2.0.7",
     "lodash.assign": "^4.2.0",
     "lodash.find": "^4.6.0",
     "lodash.isempty": "^4.4.0",
     "lodash.iserror": "^3.1.1",
-    "proxy-agent": "^3.0.0"
+    "proxy-agent": "^3.1.1"
   },
   "devDependencies": {
-    "@types/node": "10.3.4",
-    "@types/winston": "2.3.9",
+    "@types/node": "12.11.2",
+    "@types/winston": "2.4.4",
     "clarify": "^2.1.0",
-    "coveralls": "^3.0.1",
+    "coveralls": "^3.0.7",
     "istanbul": "^0.4.5",
-    "mocha": "^5.2.0",
+    "mocha": "^6.2.2",
     "mockery": "^2.1.0",
-    "npm-check-updates": "^2.15.0",
-    "should": "^13.2.1",
-    "sinon": "^6.0.0"
+    "npm-check-updates": "^3.1.25",
+    "should": "^13.2.3",
+    "sinon": "^7.5.0"
   }
 }

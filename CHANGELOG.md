@@ -1,3 +1,7 @@
+### 2.1.0
+
+Updated dependencies
+
 ### 2.0.9
 
 The check to see if we're already posting events is now stream dependent
