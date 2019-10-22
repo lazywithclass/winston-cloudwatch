@@ -1,3 +1,7 @@
+### 2.2.0
+
+Removed MAX_BATCH_SIZE_COUNT
+
 ### 2.1.0
 
 Updated dependencies
