@@ -47,6 +47,7 @@ declare namespace WinstonCloudwatch {
   export type LogObject = { level: string; msg: string; meta?: any };
 
   export interface CloudwatchTransportOptions {
+    cloudWatchLogs?: CloudWatchLogs,
     level?: string;
     logGroupName?: string | (() => string);
     logStreamName?: string | (() => string);
