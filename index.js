@@ -31,30 +31,34 @@ var WinstonCloudWatch = function(options) {
   this.logEvents = [];
   this.errorHandler = options.errorHandler;
 
-  if (this.proxyServer) {
-    AWS.config.update({
-      httpOptions: {
-        agent: require('proxy-agent')(this.proxyServer)
-      }
-    });
+  if (options.cloudWatchLogs) {
+    this.cloudwatchlogs = options.cloudWatchLogs;
+  } else {
+    if (this.proxyServer) {
+      AWS.config.update({
+        httpOptions: {
+          agent: require('proxy-agent')(this.proxyServer)
+        }
+      });
+    }
+
+    var config = {};
+
+    if (awsAccessKeyId && awsSecretKey && awsRegion) {
+      config = { accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey, region: awsRegion };
+    } else if (awsRegion && !awsAccessKeyId && !awsSecretKey) {
+      // Amazon SDK will automatically pull access credentials
+      // from IAM Role when running on EC2 but region still
+      // needs to be configured
+      config = { region: awsRegion };
+    }
+
+    if (options.awsOptions) {
+      config = assign(config, options.awsOptions);
+    }
+
+    this.cloudwatchlogs = new AWS.CloudWatchLogs(config);
   }
-
-  var config = {};
-
-  if (awsAccessKeyId && awsSecretKey && awsRegion) {
-    config = { accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey, region: awsRegion };
-  } else if (awsRegion && !awsAccessKeyId && !awsSecretKey) {
-    // Amazon SDK will automatically pull access credentials
-    // from IAM Role when running on EC2 but region still
-    // needs to be configured
-    config = { region: awsRegion };
-  }
-
-  if (options.awsOptions) {
-    config = assign(config, options.awsOptions);
-  }
-
-  this.cloudwatchlogs = new AWS.CloudWatchLogs(config);
 
   debug('constructor finished');
 };

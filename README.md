@@ -103,6 +103,23 @@ Think AWS Lambda for example, you don't want to leave the process running there 
 You could have winston-cloudwatch to flush and stop the setInterval loop (thus exiting), have a look
 at [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/flush-and-exit.js).
 
+#### Custom AWS.CloudWatchLogs instance
+
+```js
+const AWS = require('aws-sdk');
+
+AWS.config.update({
+  region: 'us-east-1',
+});
+
+winston.add(new WinstonCloudWatch({
+  cloudWatchLogs: new AWS.CloudWatchLogs(),
+  logGroupName: 'testing',
+  logStreamName: 'first'
+}));
+
+```
+
 ### Options
 
 This is the list of options you could pass as argument to `winston.add`:
@@ -110,6 +127,7 @@ This is the list of options you could pass as argument to `winston.add`:
  * level - defaults to `info`
  * logGroupName - `string` or `function`
  * logStreamName - `string` or `function`
+ * cloudWatchLogs - `AWS.CloudWatchLogs` instance, used to set custom AWS instance. aws* and proxyServer options do not get used if this is set.
  * awsAccessKeyId
  * awsSecretKey
  * awsRegion

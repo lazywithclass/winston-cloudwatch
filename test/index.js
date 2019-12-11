@@ -53,6 +53,14 @@ describe('index', function() {
 
   describe('construtor', function() {
 
+    it('allows cloudWatchLogs', function() {
+      var options = {
+        cloudWatchLogs: { fakeOptions: { region: 'us-west-2' }}
+      };
+      var transport = new WinstonCloudWatch(options);
+      transport.cloudwatchlogs.fakeOptions.region.should.equal('us-west-2');
+    });
+
     it('allows awsOptions', function() {
       var options = {
         awsOptions: {
