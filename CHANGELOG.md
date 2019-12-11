@@ -1,3 +1,7 @@
+### 2.3.0
+
+Allow custom aws cloudwatchlogs instance
+
 ### 2.2.0
 
 Removed MAX_BATCH_SIZE_COUNT
