@@ -44,7 +44,7 @@ export = WinstonCloudwatch;
 // Declare optional exports
 declare namespace WinstonCloudwatch {
 
-  export type LogObject = { level: string; msg: string; meta?: any };
+  export type LogObject = { level: string; message: string; meta?: any };
 
   export interface CloudwatchTransportOptions {
     cloudWatchLogs?: CloudWatchLogs,
