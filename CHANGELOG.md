@@ -1,3 +1,7 @@
+### 2.3.1
+
+Fix TS type definition
+
 ### 2.3.0
 
 Allow custom aws cloudwatchlogs instance
