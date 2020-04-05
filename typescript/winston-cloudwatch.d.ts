@@ -2,6 +2,8 @@ import TransportStream = require("winston-transport");
 
 import { CloudWatch, CloudWatchLogs } from "aws-sdk";
 
+import winston = require('winston');
+
 // Declare the default WinstonCloudwatch class
 declare class WinstonCloudwatch extends TransportStream {
   kthxbye(callback: () => void): void;
@@ -44,7 +46,7 @@ export = WinstonCloudwatch;
 // Declare optional exports
 declare namespace WinstonCloudwatch {
 
-  export type LogObject = { level: string; msg: string; meta?: any };
+  export type LogObject = winston.LogEntry;
 
   export interface CloudwatchTransportOptions {
     cloudWatchLogs?: CloudWatchLogs,
