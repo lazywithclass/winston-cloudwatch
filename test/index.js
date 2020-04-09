@@ -49,6 +49,7 @@ describe('index', function() {
   after(function() {
     mockery.deregisterAll();
     mockery.disable();
+    clock.restore();
   });
 
   describe('construtor', function() {
@@ -212,9 +213,7 @@ describe('index', function() {
       });
 
       afterEach(function() {
-        stubbedCloudwatchIntegration = {
-          upload: sinon.spy()
-        };
+        stubbedCloudwatchIntegration.upload = sinon.spy();
         console.error.restore();
       });
 
@@ -246,7 +245,10 @@ describe('index', function() {
       sinon.stub(global, 'setInterval');
       sinon.stub(global, 'clearInterval');
       transport = new WinstonCloudWatch({});
-      sinon.stub(transport, 'submit').yields();
+      sinon.stub(transport, 'submit').callsFake(function(cb){
+        this.logEvents.splice(0, 20);
+        cb();
+      });
     });
 
     afterEach(function() {
@@ -270,6 +272,35 @@ describe('index', function() {
         transport.submit.callCount.should.equal(1);
         done();
       });
+    });
+
+    it('should not send all messages if called while posting', function(done) {
+      for (var index = 0; index < 30; index++) {
+        transport.add({ message: 'message' + index });
+      }
+
+      transport.kthxbye(function() {        
+        transport.logEvents.length.should.equal(0);
+        done();
+      });
+
+      clock.tick(1);
+    });
+    
+    it('should exit if logs are not cleared by the timeout period', function(done) {            
+      transport.add({ message: 'message' });
+      transport.submit.callsFake(function(cb){
+        clock.tick(500);
+        cb(); // callback is called but logEvents is not cleared
+      }); 
+
+      transport.kthxbye(function(error) {
+        error.should.be.Error();
+        transport.logEvents.length.should.equal(1);
+        done();
+      });
+
+      clock.tick(1);
     });
   });
 
