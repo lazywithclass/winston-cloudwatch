@@ -1,3 +1,7 @@
+### 2.3.2
+
+kthxbye will try to flush events before stopping the interval
+
 ### 2.3.1
 
 Fix TS type definition
