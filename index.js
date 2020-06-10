@@ -15,24 +15,12 @@ const defaultFlushTimeoutMs = 10000
 module.exports = class WinstonCloudwatch extends Transport {
   constructor(opts) {
     super(opts)
-    //
-    // Consume any custom options here. e.g.:
-    // - Connection information for databases
-    // - Authentication information for APIs (e.g. loggly, papertrail, 
-    //   logentries, etc.).
-    //
-
     this.setOptions(opts)
     debug('constructor finished')
   }
 
   log(info, callback) {
     debug('log (called by winston)', info);
-    
-    // setImmediate(() => {
-    //   this.emit('logged', info)
-    // })
-
     if (!isEmpty(info.message) || isError(info.message)) { 
       this.add(info);
     }
@@ -49,9 +37,6 @@ module.exports = class WinstonCloudwatch extends Transport {
     clearInterval(this.intervalId);
     this.intervalId = null;
     this.submit(callback);
-
-    // Perform the writing to the remote service
-    callback()
   }
 
   add(log) {
