@@ -92,10 +92,10 @@ describe('cloudwatch-integration', function() {
       ];
       lib.upload(aws, 'group', 'stream', events, 0, function(err) {
         aws.putLogEvents.calledOnce.should.equal(true);
-        aws.putLogEvents.args[0][0].logEvents.length.should.equal(4); // First Batch
+        aws.putLogEvents.args[0][0].logEvents.length.should.equal(3); // First Batch
         // Now, finish.
         lib.upload(aws, 'group', 'stream', events, 0, function(err) {
-          aws.putLogEvents.args[1][0].logEvents.length.should.equal(1); // Second Batch
+          aws.putLogEvents.args[1][0].logEvents.length.should.equal(2); // Second Batch
           done()
         });
       });
