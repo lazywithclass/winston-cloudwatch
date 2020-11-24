@@ -1,3 +1,7 @@
+### 2.4.0
+
+Include CloudWatch event limits
+
 ### 2.3.2
 
 kthxbye will try to flush events before stopping the interval
