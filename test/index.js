@@ -1,9 +1,27 @@
+var sinon = require('sinon'),
+    should = require('should'),
+    mockery = require('mockery');
+
+
+// the following does not, and should not, mock winston,
+// to actually test the transport
+describe.only('Transport', function() {
+
+  var winston = require('winston'),
+      WinstonCloudWatch = require('../index.js'),
+      clock = sinon.useFakeTimers(),
+      Transport = require('winston-transport'),
+      transport;
+
+  it('should derive from Winston transport', function() {
+    transport = new WinstonCloudWatch({});
+    transport.should.be.an.instanceOf(Transport)
+  });
+});
+
 describe('index', function() {
 
-  var sinon = require('sinon'),
-      should = require('should'),
-      mockery = require('mockery');
-
+  // TODO check that the API is still this one
   var stubbedWinston = {
     transports: {},
     Transport: function() {}
@@ -303,5 +321,4 @@ describe('index', function() {
       clock.tick(1);
     });
   });
-
 });
