@@ -18,6 +18,7 @@ var WinstonCloudWatch = function(options) {
   this.logGroupName = options.logGroupName;
   this.retentionInDays = options.retentionInDays || 0;
   this.logStreamName = options.logStreamName;
+  this.options = options;
 
   var awsAccessKeyId = options.awsAccessKeyId;
   var awsSecretKey = options.awsSecretKey;
@@ -128,6 +129,7 @@ WinstonCloudWatch.prototype.submit = function(callback) {
     streamName,
     this.logEvents,
     retentionInDays,
+    this.options,
     callback
   );
 };
