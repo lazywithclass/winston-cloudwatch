@@ -80,9 +80,7 @@ describe('cloudwatch-integration', function() {
       var BIG_MSG_LEN = 300000;
       const events = [{ message : new Array(BIG_MSG_LEN).join('A'), timestamp : new Date().toISOString()}];
       var errCalled = false;
-      lib.upload(aws, 'group', 'stream', events, {
-        ensureGroupPresent: true
-      }, 0, {
+      lib.upload(aws, 'group', 'stream', events, 0, {
         ensureGroupPresent: true
       }, function(err) {
         if(err) {
