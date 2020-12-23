@@ -1,3 +1,7 @@
+### 2.5.0
+
+Allow to skip ensureGroupPresent
+
 ### 2.4.0
 
 Include CloudWatch event limits
