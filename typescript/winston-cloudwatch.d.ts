@@ -13,6 +13,7 @@ declare class WinstonCloudwatch extends TransportStream {
     streamName: string,
     logEvents: any[],
     retentionInDays: number,
+    options: WinstonCloudwatch.CloudwatchTransportOptions,
     cb: ((err: Error, data: any) => void)
   ): void;
   getToken(
@@ -20,6 +21,7 @@ declare class WinstonCloudwatch extends TransportStream {
     groupName: string,
     streamName: string,
     retentionInDays: number,
+    options: WinstonCloudwatch.CloudwatchTransportOptions,
     cb: ((err: Error, data: string) => void)
   ): void;
   ensureGroupPresent(
@@ -51,6 +53,7 @@ declare namespace WinstonCloudwatch {
   export interface CloudwatchTransportOptions {
     cloudWatchLogs?: CloudWatchLogs,
     level?: string;
+    ensureLogGroup?: boolean;
     logGroupName?: string | (() => string);
     logStreamName?: string | (() => string);
     awsAccessKeyId?: string;
