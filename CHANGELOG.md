@@ -1,3 +1,6 @@
+### 2.5.1
+Update dependencies to address vulnerabilities
+
 ### 2.5.0
 
 Allow to skip ensureGroupPresent
