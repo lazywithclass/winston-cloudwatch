@@ -1,9 +1,11 @@
-# winston-cloudwatch [v2.5.2](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#252)
+# winston-cloudwatch [v3.0.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#300)
 
 [![Build Status](https://travis-ci.org/lazywithclass/winston-cloudwatch.svg?branch=master)](https://travis-ci.org/lazywithclass/winston-cloudwatch) [![Coverage Status](https://coveralls.io/repos/github/lazywithclass/winston-cloudwatch/badge.svg?branch=master)](https://coveralls.io/github/lazywithclass/winston-cloudwatch?branch=master) [![Dependency Status](https://david-dm.org/lazywithclass/winston-cloudwatch.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch) [![dev dependencies](https://david-dm.org/lazywithclass/winston-cloudwatch/dev-status.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch#info=devDependencies) [![peer dependencies](https://david-dm.org/lazywithclass/winston-cloudwatch/peer-status.svg)](https://david-dm.org/lazywithclass/winston-cloudwatch#info=peerDependencies)
 ==================
 
 Send logs to Amazon Cloudwatch using [Winston](https://github.com/winstonjs/winston)
+
+Starting from version 3.0.0 we moved aws-sdk into devDependencies to reduce the size of the package, so if you're not using this on AWS Lambda make sure you add aws-sdk dependency into your application package.json.
 
 If you were using this library before version 2.0.0 have a look at the 
 [migration guide for Winston](https://github.com/winstonjs/winston/blob/master/UPGRADE-3.0.md) and at the updated

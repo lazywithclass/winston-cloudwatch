@@ -1,3 +1,6 @@
+### 3.0.0
+Move aws-sdk into devDependencies
+
 ### 2.5.1
 Update dependencies to address vulnerabilities
 
