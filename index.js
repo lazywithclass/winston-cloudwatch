@@ -12,6 +12,7 @@ var util = require('util'),
     defaultFlushTimeoutMs = 10000;
 
 var WinstonCloudWatch = function(options) {
+  options = options || {};
   winston.Transport.call(this, options);
   this.level = options.level || 'info';
   this.name = options.name || 'CloudWatch';
