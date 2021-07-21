@@ -126,6 +126,7 @@ winston.add(new WinstonCloudWatch({
 
 This is the list of options you could pass as argument to `winston.add`:
 
+ * name - `string`
  * level - defaults to `info`
  * logGroupName - `string` or `function`
  * logStreamName - `string` or `function`
