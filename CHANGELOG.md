@@ -1,3 +1,7 @@
+### 3.0.1
+
+Add `name` to .d.ts definition
+
 ### 3.0.0
 Move aws-sdk into devDependencies
 
