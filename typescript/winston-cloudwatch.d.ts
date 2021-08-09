@@ -55,6 +55,7 @@ declare namespace WinstonCloudwatch {
     cloudWatchLogs?: CloudWatchLogs;
     level?: string;
     ensureLogGroup?: boolean;
+    ignoreDataAlreadyAcceptedException?: boolean;
     logGroupName?: string | (() => string);
     logStreamName?: string | (() => string);
     awsAccessKeyId?: string;
