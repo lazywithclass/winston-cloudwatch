@@ -135,11 +135,15 @@ WinstonCloudWatch.prototype.submit = function(callback) {
 };
 
 WinstonCloudWatch.prototype.kthxbye = function(callback) {  
+  debug('clearing interval');
   clearInterval(this.intervalId);
   this.intervalId = null;
+  debug('interval cleared');
   this.flushTimeout = this.flushTimeout || (Date.now() + defaultFlushTimeoutMs);
+  debug('flush timeout set to', this.flushTimeout);
 
-  this.submit((function(error) {    
+  this.submit((function(error) {
+    debug('submit done', error);
     if (error) return callback(error);
     if (isEmpty(this.logEvents)) return callback();
     if (Date.now() > this.flushTimeout) return callback(new Error('Timeout reached while waiting for logs to submit'));
