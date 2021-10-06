@@ -14,7 +14,7 @@ winston.loggers.add('access-log', {
       colorize: true,
       level: 'info'
     }),
-    new WinstonCloudwatch({
+    new WinstonCloudWatch({
       logGroupName: 'app-name',
       logStreamName: function() {
         // Spread log streams across dates as the server stays up
