@@ -1,3 +1,7 @@
+### 3.1.0
+
+Fixed security issue in proxy-agent
+
 ### 3.0.2
 
 Add debugging info to kthxbye
