@@ -1,3 +1,7 @@
+### 3.1.1
+
+Update sinon
+
 ### 3.1.0
 
 Fixed security issue in proxy-agent
