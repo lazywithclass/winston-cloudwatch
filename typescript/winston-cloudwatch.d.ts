@@ -51,7 +51,7 @@ declare namespace WinstonCloudwatch {
   export type LogObject = winston.LogEntry;
 
   export interface CloudwatchTransportOptions {
-    name: string;
+    name?: string;
     cloudWatchLogs?: CloudWatchLogs;
     level?: string;
     ensureLogGroup?: boolean;
