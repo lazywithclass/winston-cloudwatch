@@ -1,7 +1,7 @@
 describe('cloudwatch-integration', function() {
 
   var lib = require('../lib/cloudwatch-integration'),
-      AWS = require('aws-sdk'),
+      { CloudWatchLogs } = require('@aws-sdk/client-cloudwatch-logs'),
       sinon = require('sinon'),
       should = require('should');
 

@@ -1,8 +1,8 @@
 import TransportStream = require("winston-transport");
 
-import { CloudWatch, CloudWatchLogs } from "aws-sdk";
+import { CloudWatchLogs, CloudWatchLogsClientConfig, LogStream } from "@aws-sdk/client-cloudwatch-logs";
 
-import winston = require('winston');
+import winston = require("winston");
 
 // Declare the default WinstonCloudwatch class
 declare class WinstonCloudwatch extends TransportStream {
@@ -14,7 +14,7 @@ declare class WinstonCloudwatch extends TransportStream {
     logEvents: any[],
     retentionInDays: number,
     options: WinstonCloudwatch.CloudwatchTransportOptions,
-    cb: ((err: Error, data: any) => void)
+    cb: (err: Error, data: any) => void
   ): void;
   getToken(
     aws: CloudWatchLogs,
@@ -22,36 +22,35 @@ declare class WinstonCloudwatch extends TransportStream {
     streamName: string,
     retentionInDays: number,
     options: WinstonCloudwatch.CloudwatchTransportOptions,
-    cb: ((err: Error, data: string) => void)
+    cb: (err: Error, data: string) => void
   ): void;
   ensureGroupPresent(
     aws: CloudWatchLogs,
     name: string,
     retentionInDays: number,
-    cb: ((err: Error, data: boolean) => void)
+    cb: (err: Error, data: boolean) => void
   ): void;
   getStream(
     aws: CloudWatchLogs,
     groupName: string,
     streamName: string,
-    cb: ((
+    cb: (
       err: Error,
-      data: CloudWatchLogs.Types.DescribeLogStreamsResponse
-    ) => void)
+      data: LogStream
+    ) => void
   ): void;
-  ignoreInProgress(cb: ((err: Error) => void)): void;
-  constructor (options?: WinstonCloudwatch.CloudwatchTransportOptions);
+  ignoreInProgress(cb: (err: Error) => void): void;
+  constructor(options?: WinstonCloudwatch.CloudwatchTransportOptions);
 }
 // Export the default winston cloudwatch class
 export = WinstonCloudwatch;
 
 // Declare optional exports
 declare namespace WinstonCloudwatch {
-
   export type LogObject = winston.LogEntry;
 
   export interface CloudwatchTransportOptions {
-    name: string;
+    name?: string;
     cloudWatchLogs?: CloudWatchLogs;
     level?: string;
     ensureLogGroup?: boolean;
@@ -60,12 +59,11 @@ declare namespace WinstonCloudwatch {
     awsAccessKeyId?: string;
     awsSecretKey?: string;
     awsRegion?: string;
-    awsOptions?: CloudWatch.Types.ClientConfiguration;
+    awsOptions?: CloudWatchLogsClientConfig;
     jsonMessage?: boolean;
     messageFormatter?: (logObject: LogObject) => string;
-    proxyServer?: string;
     uploadRate?: number;
-    errorHandler?: ((err: Error) => void);
+    errorHandler?: (err: Error) => void;
     silent?: boolean;
     retentionInDays?: number;
   }
