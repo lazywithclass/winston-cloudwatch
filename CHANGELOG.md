@@ -1,3 +1,7 @@
+### 3.2.0
+
+Use modular cloudwatch package instead of entire aws sdk
+
 ### 3.1.1
 
 Update sinon
