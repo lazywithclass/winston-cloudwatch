@@ -2,7 +2,7 @@
 
 var util = require('util'),
     winston = require('winston'),
-    AWS = require('aws-sdk'),
+    { CloudWatchLogs } = require('@aws-sdk/client-cloudwatch-logs'),
     cloudWatchIntegration = require('./lib/cloudwatch-integration'),
     isEmpty = require('lodash.isempty'),
     assign = require('lodash.assign'),
@@ -27,7 +27,6 @@ var WinstonCloudWatch = function(options) {
     return [ log.level, log.message ].join(' - ')
   };
   this.formatMessage = options.jsonMessage ? stringify : messageFormatter;
-  this.proxyServer = options.proxyServer;
   this.uploadRate = options.uploadRate || 2000;
   this.logEvents = [];
   this.errorHandler = options.errorHandler;
@@ -35,14 +34,6 @@ var WinstonCloudWatch = function(options) {
   if (options.cloudWatchLogs) {
     this.cloudwatchlogs = options.cloudWatchLogs;
   } else {
-    if (this.proxyServer) {
-      AWS.config.update({
-        httpOptions: {
-          agent: require('proxy-agent')(this.proxyServer)
-        }
-      });
-    }
-
     var config = {};
 
     if (awsAccessKeyId && awsSecretKey && awsRegion) {
@@ -58,7 +49,7 @@ var WinstonCloudWatch = function(options) {
       config = assign(config, options.awsOptions);
     }
 
-    this.cloudwatchlogs = new AWS.CloudWatchLogs(config);
+    this.cloudwatchlogs = new CloudWatchLogs(config);
   }
 
   debug('constructor finished');

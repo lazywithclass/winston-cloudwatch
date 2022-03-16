@@ -4,7 +4,7 @@ describe('index', function() {
       should = require('should'),
       mockery = require('mockery');
 
-  var stubbedWinston = {
+var stubbedWinston = {
     transports: {},
     Transport: function() {}
   };
@@ -37,7 +37,6 @@ describe('index', function() {
     mockery.registerAllowable('lodash.iserror');
     mockery.registerAllowable('./lib/utils');
 
-    mockery.registerMock('proxy-agent', function() { return 'fake' });
     mockery.registerMock('winston', stubbedWinston);
     mockery.registerMock('aws-sdk', stubbedAWS);
     mockery.registerMock('./lib/cloudwatch-integration', stubbedCloudwatchIntegration);
@@ -69,7 +68,9 @@ describe('index', function() {
         }
       };
       var transport = new WinstonCloudWatch(options);
-      transport.cloudwatchlogs.fakeOptions.region.should.equal('us-east-1');
+      transport.cloudwatchlogs.config.region().then(region => {
+        region.should.equal('us-east-1');
+      })
     });
 
     it('merges awsOptions into existing ones', function() {
@@ -80,21 +81,10 @@ describe('index', function() {
         }
       };
       var transport = new WinstonCloudWatch(options);
-      transport.cloudwatchlogs.fakeOptions.region.should.equal('us-east-1');
+      return transport.cloudwatchlogs.config.region().then(region => {
+        region.should.equal('us-east-1')
+      })
     });
-
-    it('configures httpOptions if a proxyServer has been defined', function() {
-      var options = {
-        awsOptions: {
-          region: 'us-east-1'
-        },
-        proxyServer: 'http://test.com'
-      };
-      var transport = new WinstonCloudWatch(options);
-      stubbedAWS.config.update.calledOnce.should.equal(true);
-      stubbedAWS.config.update.args[0][0].httpOptions.agent.should.equal('fake');
-    });
-
   });
 
   describe('log', function() {
