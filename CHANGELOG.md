@@ -1,3 +1,7 @@
+### 4.0.1
+
+Use the correct attribute to understand which version @aws is launching, so that we could take correct actions
+
 ### 4.0.0
 
 Remove cloudwatch package from devDependencies, update README accordingly.

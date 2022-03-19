@@ -36,6 +36,8 @@ var stubbedWinston = {
     mockery.registerAllowable('lodash.isempty');
     mockery.registerAllowable('lodash.iserror');
     mockery.registerAllowable('./lib/utils');
+    mockery.registerAllowable('@aws-sdk/client-cloudwatch-logs');
+    mockery.registerAllowable('aws-crt');
 
     mockery.registerMock('winston', stubbedWinston);
     mockery.registerMock('aws-sdk', stubbedAWS);
