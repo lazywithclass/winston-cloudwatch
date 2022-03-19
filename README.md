@@ -36,7 +36,7 @@ If you were using this library before version 2.0.0 have a look at the
 ### Installing
 
 ```sh
-$ npm install --save winston winston-cloudwatch
+$ npm install --save winston winston-cloudwatch @aws-sdk/client-cloudwatch-logs
 ```
 
 ### Configuring
