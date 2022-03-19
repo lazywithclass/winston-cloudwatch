@@ -1,3 +1,8 @@
+### 4.0.0
+
+Remove cloudwatch package from devDependencies, update README accordingly.
+This should've been done as part of the previous version publish.
+
 ### 3.2.0
 
 Use modular cloudwatch package instead of entire aws sdk
