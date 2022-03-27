@@ -176,7 +176,7 @@ describe('cloudwatch-integration', function() {
     });
 
     it('gets another token if InvalidSequenceTokenException', function(done) {
-      aws.putLogEvents.yields({ code: 'InvalidSequenceTokenException' });
+      aws.putLogEvents.yields({ name: 'InvalidSequenceTokenException' });
       lib.upload(aws, 'group', 'stream', Array(20), 0, {
         ensureGroupPresent: true
       }, function(err) {
@@ -186,7 +186,7 @@ describe('cloudwatch-integration', function() {
     });
 
     it('gets another token if ResourceNotFoundException', function(done) {
-      aws.putLogEvents.yields({ code: 'InvalidSequenceTokenException' });
+      aws.putLogEvents.yields({ name: 'InvalidSequenceTokenException' });
       lib.upload(aws, 'group', 'stream', Array(20), 0, {
         ensureGroupPresent: true
       }, function(err) {
@@ -315,7 +315,7 @@ describe('cloudwatch-integration', function() {
     });
 
     it('creates a group if it is not present', function(done) {
-      var err = { code: 'ResourceNotFoundException' };
+      var err = { name: 'ResourceNotFoundException' };
       aws.describeLogStreams = sinon.stub().yields(err);
       aws.createLogGroup = sinon.stub().yields(null);
 
@@ -337,7 +337,7 @@ describe('cloudwatch-integration', function() {
     });
 
     it('errors if creating a group errors', function(done) {
-      var err = { code: 'ResourceNotFoundException' };
+      var err = { name: 'ResourceNotFoundException' };
       aws.describeLogStreams = sinon.stub().yields(err);
       aws.createLogGroup = sinon.stub().yields('err');
 
@@ -411,7 +411,7 @@ describe('cloudwatch-integration', function() {
             logStreamName: 'another-stream'
           }]
         });
-      var err = { code: 'OperationAbortedException' };
+      var err = { name: 'OperationAbortedException' };
       aws.createLogStream = sinon.stub().yields(err);
 
       lib.getStream(aws, 'group', 'stream', function(err, stream) {
@@ -432,7 +432,7 @@ describe('cloudwatch-integration', function() {
             logStreamName: 'another-stream'
           }]
         });
-      err = { code: 'ResourceAlreadyExistsException' };
+      err = { name: 'ResourceAlreadyExistsException' };
       aws.createLogStream = sinon.stub().yields(err);
 
       lib.getStream(aws, 'group', 'stream', function(err, stream) {
@@ -460,7 +460,7 @@ describe('cloudwatch-integration', function() {
 
     it('ignores a OperationAbortedException', function(done) {
       function runner(cb) {
-        var err = { code: 'OperationAbortedException' };
+        var err = { name: 'OperationAbortedException' };
         cb(err);
       }
 
@@ -472,7 +472,7 @@ describe('cloudwatch-integration', function() {
 
     it('ignores a ResourceAlreadyExistsException', function(done) {
       function runner(cb) {
-        var err = { code: 'ResourceAlreadyExistsException' };
+        var err = { name: 'ResourceAlreadyExistsException' };
         cb(err);
       }
 
