@@ -1,3 +1,7 @@
+### 5.0.0
+
+Add @aws-sdk/client-cloudwatch-logs to peerDependencies
+
 ### 4.0.1
 
 Use the correct attribute to understand which version @aws is launching, so that we could take correct actions
