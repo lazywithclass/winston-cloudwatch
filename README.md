@@ -39,6 +39,8 @@ If you were using this library before version 2.0.0 have a look at the
 $ npm install --save winston winston-cloudwatch @aws-sdk/client-cloudwatch-logs
 ```
 
+Also consider that we have both winston and @aws-sdk/client-cloudwatch-logs configured as peerDependencies.
+
 ### Configuring
 
 AWS configuration works using `~/.aws/credentials` as written in [AWS JavaScript SDK guide](http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-configuring.html#Setting_AWS_Credentials).
