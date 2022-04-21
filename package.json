@@ -20,6 +20,7 @@
   "license": "MIT",
   "typings": "typescript/winston-cloudwatch.d.ts",
   "peerDependencies": {
+    "@aws-sdk/client-cloudwatch-logs": "^3.0.0",
     "winston": "^3.0.0"
   },
   "dependencies": {
