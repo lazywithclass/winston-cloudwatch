@@ -1,3 +1,7 @@
+### 6.0.0
+
+Create log groups when missing, using the correct attribute to check for exceptions
+
 ### 5.0.0
 
 Add @aws-sdk/client-cloudwatch-logs to peerDependencies
