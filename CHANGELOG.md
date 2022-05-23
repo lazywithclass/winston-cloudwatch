@@ -1,3 +1,7 @@
+### 6.0.1
+
+Add error parameter to kthxbye callback
+
 ### 6.0.0
 
 Create log groups when missing, using the correct attribute to check for exceptions
