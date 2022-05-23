@@ -6,7 +6,7 @@ import winston = require("winston");
 
 // Declare the default WinstonCloudwatch class
 declare class WinstonCloudwatch extends TransportStream {
-  kthxbye(callback: () => void): void;
+  kthxbye(callback: (err: Error) => void): void;
   upload(
     aws: CloudWatchLogs,
     groupName: string,
