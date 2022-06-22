@@ -49,7 +49,7 @@ var WinstonCloudWatch = function(options) {
       config = assign(config, options.awsOptions);
     }
 
-    this.cloudwatchlogs = new CloudWatchLogs(config);
+    this.cloudwatchlogs = new CloudWatchLogs({credentials:config});
   }
 
   debug('constructor finished');
