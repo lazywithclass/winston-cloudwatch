@@ -118,7 +118,7 @@ WinstonCloudWatch.prototype.submit = function(callback) {
     this.cloudwatchlogs,
     groupName,
     streamName,
-    this.logEvents,
+    this.logEvents.sort((a, b) => (a.timestamp > b.timestamp) ? 1 : -1),
     retentionInDays,
     this.options,
     callback
