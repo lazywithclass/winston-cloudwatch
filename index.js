@@ -118,7 +118,7 @@ WinstonCloudWatch.prototype.submit = function(callback) {
     this.cloudwatchlogs,
     groupName,
     streamName,
-    this.logEvents.sort((a, b) => (a.timestamp > b.timestamp) ? 1 : -1),
+    this.logEvents.sort((a, b) => (a.timestamp > b.timestamp) ? 1 : -1), // sort events into chronological order https://github.com/lazywithclass/winston-cloudwatch/issues/197
     retentionInDays,
     this.options,
     callback
