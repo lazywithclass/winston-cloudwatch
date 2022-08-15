@@ -1,5 +1,9 @@
 ### 6.0.1
 
+Sort events in chronological order when putting them
+
+### 6.0.1
+
 Add error parameter to kthxbye callback
 
 ### 6.0.0
