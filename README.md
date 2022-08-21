@@ -150,10 +150,7 @@ This is the list of options you could pass as argument to `winston.add`:
  * logGroupName - `string` or `function`
  * logStreamName - `string` or `function`
  * cloudWatchLogs - `AWS.CloudWatchLogs` instance, used to set custom AWS instance.
- * awsAccessKeyId
- * awsSecretKey
- * awsRegion
- * awsOptions - `object`, params as per [docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#constructor-property), values in `awsOptions` are overridden by any other if specified, run [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/simple-with-aws-options.js) to have a look
+ * awsOptions - `object`, params as per [docs](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CloudWatchLogs.html#constructor-property), values in `awsOptions` are overridden by any other if specified, run [this example](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/simple-with-aws-options.js) to have a look; you should put your `accessKeyId` and `secretAccessKey` under a nexted `credentials` property, specify `region` under `awsOptions`
  * jsonMessage - `boolean`, format the message as JSON
  * messageFormatter - `function`, format the message the way you like. This function will receive a `log` object that has the following properties: `level`, `message`, and `meta`, which are passed by winston to the `log` function (see [CustomLogger.prototype.log as an example](https://github.com/winstonjs/winston#adding-custom-transports))
  * uploadRate - `Number`, how often logs have to be sent to AWS. Be careful of not hitting [AWS CloudWatch Logs limits](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/cloudwatch_limits_cwl.html), the default is 2000ms.
