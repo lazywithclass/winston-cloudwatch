@@ -97,7 +97,7 @@ var winston = require('winston'),
 In ES6
 ```js
 import winston from 'winston';
-import WinstonCloudWatch from 'winston-cloudwatch';
+import * as WinstonCloudWatch from 'winston-cloudwatch';
 ```
 
 ```js
