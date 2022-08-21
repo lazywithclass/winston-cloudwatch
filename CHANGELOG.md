@@ -1,3 +1,7 @@
+### 6.1.1
+
+Remove awscli that has been accidentally added to tests
+
 ### 6.0.1
 
 Sort events in chronological order when putting them

@@ -1,4 +1,4 @@
-# winston-cloudwatch [v6.1.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#610)
+# winston-cloudwatch [v6.1.1](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#611)
 
 [![Build Status](https://travis-ci.org/lazywithclass/winston-cloudwatch.svg?branch=master)](https://travis-ci.org/lazywithclass/winston-cloudwatch) [![Coverage Status](https://coveralls.io/repos/github/lazywithclass/winston-cloudwatch/badge.svg?branch=master)](https://coveralls.io/github/lazywithclass/winston-cloudwatch?branch=master)
 ==================
