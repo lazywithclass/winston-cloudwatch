@@ -95,18 +95,23 @@ var winston = require('winston'),
 ```
 
 In ES6
+
 ```js
-import winston from 'winston';
+import { createLogger, format } from 'winston';
 import * as WinstonCloudWatch from 'winston-cloudwatch';
-```
 
-```js
-winston.add(new WinstonCloudWatch({
-  logGroupName: 'testing',
-  logStreamName: 'first'
-}));
-
-winston.error('1');
+export const log = createLogger({
+  level: 'debug',
+  format: format.json(),
+  transports: [
+    new WinstonCloudWatch({
+      level: 'error',
+      logGroupName: 'groupName',
+      logStreamName: 'errors',
+      awsRegion: 'eu-west-3'
+      }),
+  ]
+});
 ```
 
 You can also specify a function for the `logGroupName` and `logStreamName` options. This is handy if you are using this module in a server, say with [express](https://github.com/bithavoc/express-winston), as it enables you to easily split streams across dates, for example. There is an example of this [here](https://github.com/lazywithclass/winston-cloudwatch/blob/master/examples/function-config.js).
