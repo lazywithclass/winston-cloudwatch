@@ -37,7 +37,7 @@ describe('cloudwatch-integration', function() {
       }, function() {
         // The second upload call should get ignored
         aws.putLogEvents.calledOnce.should.equal(true);
-        lib._postingEvents['stream'] = false; // reset
+        delete lib._postingEvents['stream']; // reset
         done()
       });
     });
@@ -54,7 +54,7 @@ describe('cloudwatch-integration', function() {
       }, function() {
         // The second upload call should get ignored
         lib.getToken.calledOnce.should.equal(true);
-        lib._postingEvents['stream'] = false; // reset
+        delete lib._postingEvents['stream']; // reset
         done()
       });
     });
@@ -72,8 +72,8 @@ describe('cloudwatch-integration', function() {
 
       lib.getToken.calledTwice.should.equal(true);
 
-      lib._postingEvents['stream1'] = false; // reset
-      lib._postingEvents['stream2'] = false; // reset
+      delete lib._postingEvents['stream1']; // reset
+      delete lib._postingEvents['stream2']; // reset
     });
 
     it('truncates very large messages and alerts the error handler', function(done) {
