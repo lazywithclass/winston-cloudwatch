@@ -524,4 +524,32 @@ describe('cloudwatch-integration', function() {
 
   });
 
+  describe('clearSequenceToken', function() {
+    var aws = {};
+
+    beforeEach(function() {
+      sinon.stub(lib, 'getToken').yields(null, 'token');
+    });
+
+    it('clears sequence token set by upload', function(done) {
+      var nextSequenceToken = 'abc123';
+      var group = 'group';
+      var stream = 'stream';
+      aws.putLogEvents = sinon.stub().yields(null, { nextSequenceToken: nextSequenceToken });
+
+      lib.upload(aws, group, stream, Array(20), 0, {}, function() {
+        lib._nextToken.should.deepEqual({ 'group:stream': nextSequenceToken });
+        lib.clearSequenceToken(group, stream);
+        lib._nextToken.should.deepEqual({});
+        done();
+      });
+    });
+
+    afterEach(function() {
+      lib.getToken.restore();
+    });
+  })
+
+
+
 });
