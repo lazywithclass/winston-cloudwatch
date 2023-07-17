@@ -1,3 +1,7 @@
+### 6.2.0
+
+Remove proxy-agent
+
 ### 6.1.1
 
 Remove awscli that has been accidentally added to tests
