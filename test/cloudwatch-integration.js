@@ -37,7 +37,7 @@ describe('cloudwatch-integration', function() {
       }, function() {
         // The second upload call should get ignored
         aws.putLogEvents.calledOnce.should.equal(true);
-        lib._postingEvents['stream'] = false; // reset
+        delete lib._postingEvents['stream']; // reset
         done()
       });
     });
@@ -54,7 +54,7 @@ describe('cloudwatch-integration', function() {
       }, function() {
         // The second upload call should get ignored
         lib.getToken.calledOnce.should.equal(true);
-        lib._postingEvents['stream'] = false; // reset
+        delete lib._postingEvents['stream']; // reset
         done()
       });
     });
@@ -72,8 +72,8 @@ describe('cloudwatch-integration', function() {
 
       lib.getToken.calledTwice.should.equal(true);
 
-      lib._postingEvents['stream1'] = false; // reset
-      lib._postingEvents['stream2'] = false; // reset
+      delete lib._postingEvents['stream1']; // reset
+      delete lib._postingEvents['stream2']; // reset
     });
 
     it('truncates very large messages and alerts the error handler', function(done) {
@@ -523,5 +523,33 @@ describe('cloudwatch-integration', function() {
     });
 
   });
+
+  describe('clearSequenceToken', function() {
+    var aws = {};
+
+    beforeEach(function() {
+      sinon.stub(lib, 'getToken').yields(null, 'token');
+    });
+
+    it('clears sequence token set by upload', function(done) {
+      var nextSequenceToken = 'abc123';
+      var group = 'group';
+      var stream = 'stream';
+      aws.putLogEvents = sinon.stub().yields(null, { nextSequenceToken: nextSequenceToken });
+
+      lib.upload(aws, group, stream, Array(20), 0, {}, function() {
+        lib._nextToken.should.deepEqual({ 'group:stream': nextSequenceToken });
+        lib.clearSequenceToken(group, stream);
+        lib._nextToken.should.deepEqual({});
+        done();
+      });
+    });
+
+    afterEach(function() {
+      lib.getToken.restore();
+    });
+  })
+
+
 
 });

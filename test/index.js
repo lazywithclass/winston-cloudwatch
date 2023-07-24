@@ -20,7 +20,8 @@ var stubbedWinston = {
     upload: sinon.spy(function(aws, groupName, streamName, logEvents, retention, options, cb) {
       this.lastLoggedEvents = logEvents.splice(0, 20);
       cb();
-    })
+    }),
+    clearSequenceToken: sinon.stub()
   };
   var clock = sinon.useFakeTimers();
 

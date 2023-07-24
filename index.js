@@ -135,6 +135,11 @@ WinstonCloudWatch.prototype.kthxbye = function(callback) {
 
   this.submit((function(error) {
     debug('submit done', error);
+    var groupName = typeof this.logGroupName === 'function' ?
+        this.logGroupName() : this.logGroupName;
+    var streamName = typeof this.logStreamName === 'function' ?
+        this.logStreamName() : this.logStreamName;
+    cloudWatchIntegration.clearSequenceToken(groupName, streamName);
     if (error) return callback(error);
     if (isEmpty(this.logEvents)) return callback();
     if (Date.now() > this.flushTimeout) return callback(new Error('Timeout reached while waiting for logs to submit'));
