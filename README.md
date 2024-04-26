@@ -2,7 +2,7 @@
 
 | :warning: WARNING          |
 |:---------------------------|
-| I realised I don't have time anymore to work on this. It's very likely no more updates will be made on this code. |
+| I realised I don't have time anymore to work on this. It's very likely no more updates will be made on this project. |
 
 [![Build Status](https://travis-ci.org/lazywithclass/winston-cloudwatch.svg?branch=master)](https://travis-ci.org/lazywithclass/winston-cloudwatch) [![Coverage Status](https://coveralls.io/repos/github/lazywithclass/winston-cloudwatch/badge.svg?branch=master)](https://coveralls.io/github/lazywithclass/winston-cloudwatch?branch=master)
 ==================
