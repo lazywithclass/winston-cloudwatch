@@ -1,4 +1,4 @@
-# winston-cloudwatch [v6.2.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#620)
+# winston-cloudwatch [v6.3.0](https://github.com/lazywithclass/winston-cloudwatch/blob/master/CHANGELOG.md#630)
 
 | :warning: WARNING          |
 |:---------------------------|
