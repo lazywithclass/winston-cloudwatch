@@ -37,7 +37,7 @@ var WinstonCloudWatch = function(options) {
     var config = {};
 
     if (awsAccessKeyId && awsSecretKey && awsRegion) {
-      config = { accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey, region: awsRegion };
+        config = {credentials: {accessKeyId: awsAccessKeyId, secretAccessKey: awsSecretKey}, region: awsRegion};
     } else if (awsRegion && !awsAccessKeyId && !awsSecretKey) {
       // Amazon SDK will automatically pull access credentials
       // from IAM Role when running on EC2 but region still
