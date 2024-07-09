@@ -102,7 +102,7 @@ In ES6
 
 ```js
 import { createLogger, format } from 'winston';
-import * as WinstonCloudWatch from 'winston-cloudwatch';
+import WinstonCloudWatch from 'winston-cloudwatch';
 
 export const log = createLogger({
   level: 'debug',
